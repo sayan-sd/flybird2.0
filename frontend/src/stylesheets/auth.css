@@ -1,0 +1,8 @@
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    /* background: #e0e0e0; */
+    margin: 0 10px;
+}
