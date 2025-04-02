@@ -105,6 +105,22 @@ const SinglePost = ({ post }) => {
         }
     };
 
+    // bookmark post
+    const bookmarkHandler = async () => {
+        try {
+            const res = await axios.get(import.meta.env.VITE_SERVER_DOMAIN + `/post/bookmark/${post?._id}`, {withCredentials: true});
+
+            if (res.data.status) {
+                toast.success(res.data.message);
+            }
+            
+        }
+        catch (error) {
+            console.error("Error in bookmarking post", error);
+            toast.error(error.response.data.message);
+        }
+    }
+
     return (
         <div className="my-8 w-full max-w-sm mx-auto">
             {/* header */}
@@ -168,7 +184,7 @@ const SinglePost = ({ post }) => {
                     />
                     <PaperPlaneTilt size={24} />
                 </div>
-                <BookmarkSimple size={24} />
+                <BookmarkSimple size={24} onClick={bookmarkHandler} />
             </div>
 
             {/* caption */}

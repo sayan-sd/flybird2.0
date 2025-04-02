@@ -16,11 +16,17 @@ import { useNavigate } from "react-router-dom";
 import store from "../store/store";
 import { setAuthUser } from "../store/slices/authSlice";
 import { setPosts, setSelectedPost } from "../store/slices/postSlice";
+import useGetRTM from "../hooks/useGetRTM";
 
 const SideNav = () => {
+    useGetRTM();
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const { user } = useSelector((store) => store.auth);
+    const {likeNotification} = useSelector(store => store.realTimeNotification);
+
     const [createPostOpen, setCreatePostOpen] = useState(false);
 
     // logout
@@ -60,6 +66,12 @@ const SideNav = () => {
         else if (text === "Home") {
             navigate("/");
         }
+        else if (text === "Messages") {
+            navigate("/chats");
+        }
+        else if (text === "Notifications") {
+            navigate("/notify");
+        }
     };
 
     const sideBarItems = [
@@ -98,6 +110,15 @@ const SideNav = () => {
                         >
                             {item.icon}
                             <span>{item.text}</span>
+
+                            {/* notification info */}
+                            {
+                                item.text === "Notifications" && likeNotification?.length > 0 && (
+                                    <div className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center bg-primary rounded-full">
+                                        <span className="text-white text-xs">{likeNotification.length}</span>
+                                    </div>
+                                )
+                            }
                         </div>
                     ))}
                 </div>

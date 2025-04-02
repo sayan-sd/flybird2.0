@@ -6,13 +6,13 @@ const fileUpload = require("express-fileupload");
 const { connectToDB } = require("./config/db");
 require("dotenv").config();
 const { cloudinaryConnect } = require("./config/cloudinary");
+const { app, server } = require('./socket/socket');
 
 const userRoutes = require("./routes/user.routes");
 const authRoutes = require("./routes/auth.routes");
 const postRoutes = require("./routes/post.routes");
 const messageRoutes = require("./routes/message.routes");
 
-const app = express();
 
 
 // middleware
@@ -40,7 +40,7 @@ app.use("/api/v1/post", postRoutes);
 app.use("/api/v1/message", messageRoutes);
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     // connections
     connectToDB();
     cloudinaryConnect();

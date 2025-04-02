@@ -9,6 +9,8 @@ const PostActionPallet = ({ open, setOpen, userId, postAuthorId, postId }) => {
     const { posts } = useSelector((store) => store.post);
     const dispatch = useDispatch();
 
+    const { user } = useSelector(store => store.auth);
+
     useEffect(() => {
         function handleEscapeKey(event) {
             if (event.key === "Escape") {
@@ -71,10 +73,13 @@ const PostActionPallet = ({ open, setOpen, userId, postAuthorId, postId }) => {
                 </button>
 
                 <div className="w-full flex flex-col gap-3">
-                    {/* Unfollow */}
-                    <button className="px-4 py-2 text-red border border-red rounded-xl w-48 mx-auto">
-                        Unfollow
-                    </button>
+                    {
+                        postAuthorId !== user?._id && (
+                            <button className="px-4 py-2 text-white bg-primary w-48 mx-auto">
+                                Follow
+                            </button>
+                        )
+                    }
 
                     <button className="px-4 py-2 text-black w-48 mx-auto">
                         Add to favorites

@@ -37,6 +37,8 @@ exports.editProfile = async (req, res) => {
         // Update bio if provided
         if (bio) user.bio = bio;
 
+        console.log(req.files.profilePicture);
+
         // Handle profile picture upload if present
         if (req.files && req.files.profilePicture) {
             const profilePicture = req.files.profilePicture;
@@ -145,6 +147,7 @@ exports.followOrUnfollow = async (req, res) => {
             return res.status(200).json({
                 message: "Unfollowed successfully",
                 status: true,
+                type: "unfollow",
             });
         } else {
             // follow logic
@@ -162,6 +165,7 @@ exports.followOrUnfollow = async (req, res) => {
             return res.status(200).json({
                 message: "Followed successfully",
                 status: true,
+                type: "follow",
             });
         }
     } catch (error) {

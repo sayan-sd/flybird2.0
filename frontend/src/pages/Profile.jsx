@@ -1,24 +1,73 @@
 import React, { useState } from "react";
 import useGetUserProfile from "../hooks/useGetUserProfile";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import store from "../store/store";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { setAuthUser, setUserProfile } from "../store/slices/authSlice";
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const params = useParams();
     const userId = params.id;
     useGetUserProfile(userId);
 
     const [activeTab, setActiveTab] = useState("posts");
-    const { userProfile } = useSelector((store) => store.auth);
+    const { userProfile, user } = useSelector((store) => store.auth);
 
-    const isLoggedInUser = false; // TODO: check if user is logged in
-    const isFollowingUser = true; // TODO: check if user is following the current user
-    const displayedPosts = activeTab === "posts" ? userProfile?.posts : userProfile?.bookmarks;
-
+    const isLoggedInUser = user?._id === userId;
+    const isFollowingUser = user?.following?.includes(userId);
+    const displayedPosts =
+        activeTab === "posts" ? userProfile?.posts : userProfile?.bookmarks;
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
+    };
+
+    const followHandler = async () => {
+        try {
+            const res = await axios.post(
+                `${
+                    import.meta.env.VITE_SERVER_DOMAIN
+                }/user/follow-or-unfollow/${userId}`,
+                {}, // Empty body
+                { withCredentials: true } // Moved here
+            );
+
+            if (res.data.status) {
+                let updatedUserData, updatedFriendUserData;
+
+                if (res.data.type === "follow") {
+                    updatedUserData = {
+                        ...user,
+                        following: [...user.following, userId],
+                    };
+                    updatedFriendUserData = {
+                        userProfile,
+                        followers: [...userProfile.followers, user._id],
+                    };
+                } else {
+                    updatedUserData = {
+                        ...user,
+                        following: user.following.filter((id) => id !== userId),
+                    };
+                    updatedFriendUserData = {
+                        ...userProfile,
+                        followers: userProfile.followers.filter(
+                            (id) => id !== user._id
+                        ),
+                    };
+                }
+                dispatch(setAuthUser(updatedUserData));
+                dispatch(setUserProfile(updatedFriendUserData));
+
+                toast.success(res.data.message);
+            }
+        } catch (error) {
+            console.error("Error following user", error);
+            toast.error(error.response.data.message);
+        }
     };
 
     return (
@@ -36,19 +85,27 @@ const Profile = () => {
                         {userProfile?.username}
                     </span>
 
+                    <span className="text-gray-600">{userProfile?.bio}</span>
+
                     {/* action buttons */}
                     {isLoggedInUser ? (
                         <div>
-                            <button className="p-4 bg-primary text-white rounded-md mr-3">
+                            <Link
+                                to={"/account/edit"}
+                                className="p-4 bg-primary text-white rounded-md mr-3"
+                            >
                                 Edit Profile
-                            </button>
+                            </Link>
                             <button className="p-4 bg-primary text-white rounded-md">
                                 Something
                             </button>
                         </div>
                     ) : isFollowingUser ? (
                         <div className="flex gap-5">
-                            <button className="p-4 bg-primary text-white rounded-md">
+                            <button
+                                className="p-4 bg-primary text-white rounded-md"
+                                onClick={followHandler}
+                            >
                                 Unfollow
                             </button>
                             <button className="p-4 bg-primary text-white rounded-md">
@@ -56,7 +113,10 @@ const Profile = () => {
                             </button>
                         </div>
                     ) : (
-                        <button className="p-4 bg-primary text-white rounded-md">
+                        <button
+                            className="p-4 bg-primary text-white rounded-md"
+                            onClick={followHandler}
+                        >
                             Follow
                         </button>
                     )}
@@ -105,7 +165,10 @@ const Profile = () => {
                             className="w-full h-full object-cover"
                         />
                         <p>{post.caption}</p>
-                        <p>{post.likes.length} likes & {post.comments.length} comments</p>
+                        <p>
+                            {post.likes.length} likes & {post.comments.length}{" "}
+                            comments
+                        </p>
                     </div>
                 ))}
             </div>

@@ -2,6 +2,7 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+const { getReceiverSocketId, io } = require("../socket/socket");
 
 // add new post
 exports.addNewPost = async (req, res) => {
@@ -115,7 +116,23 @@ exports.likePost = async (req, res) => {
         await post.updateOne({ $addToSet: { likes: userId } });
         await post.save();
 
-        // TODO: add socket io for real time notifications
+        // real time notifications with socket.io
+        const user = await User.findById(userId).select("username profilePicture");
+        const postOwnerId = post.author.toString();
+
+        // check if i am liking someone else post
+        if (postOwnerId!== userId) {
+            // emit notification to post owner
+            const notification = {
+                type: 'like',
+                userId: userId,
+                userDetails: user,
+                postId,
+                message: `Your post was liked`,
+            }
+            const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+            io.to(postOwnerSocketId).emit('notification', notification);
+        }
 
         return res
             .status(200)
@@ -147,7 +164,23 @@ exports.dislikePost = async (req, res) => {
         await post.updateOne({ $pull: { likes: userId } });
         await post.save();
 
-        // TODO: add socket io for real time notifications
+        // real time notifications with socket.io
+        const user = await User.findById(userId).select("username profilePicture");
+        const postOwnerId = post.author.toString();
+
+        // check if i am liking someone else post
+        if (postOwnerId!== userId) {
+            // emit notification to post owner
+            const notification = {
+                type: 'dislike',
+                userId: userId,
+                userDetails: user,
+                postId,
+                message: `Your post was liked`,
+            }
+            const postOwnerSocketId = getReceiverSocketId(postOwnerId);
+            io.to(postOwnerSocketId).emit('notification', notification);
+        }
 
         return res
             .status(200)

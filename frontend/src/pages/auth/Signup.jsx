@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GoogleLogo from '../../assets/auth/google.svg'
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import '../../stylesheets/auth.css'
+import { useSelector } from "react-redux";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -18,6 +19,8 @@ const Signup = () => {
     const changeEventHandler = (e) => {
         setInput({...input, [e.target.name]: e.target.value})
     }
+
+    const { user } = useSelector(store => store.auth);
 
     const signupHandler = async (e) => {
         e.preventDefault();
@@ -53,6 +56,12 @@ const Signup = () => {
             setLoading(false);
         }
     }
+
+    useEffect(() => {
+            if (user) {
+                navigate("/");
+            }
+        }, []);
 
     return (
         <div className="w-full h-[100vh] flex items-center justify-center">

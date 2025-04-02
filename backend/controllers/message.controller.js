@@ -1,5 +1,6 @@
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
+const { getReceiverSocketId, io } = require("../socket/socket");
 
 // send message
 exports.sendMessage = async (req, res) => {
@@ -33,11 +34,15 @@ exports.sendMessage = async (req, res) => {
         }
         await Promise.all([conversation.save(), newMessage.save()]);
 
-        // TODO: implement socket io
+        // real time data transfer with socket io
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
 
         return res
             .status(200)
-            .json({ message: "Message sent successfully", status: true });
+            .json({ message: "Message sent successfully", status: true, newMessage });
     } catch (error) {
         console.log("Error in sending message", error);
         return res
@@ -55,7 +60,7 @@ exports.getMessages = async (req, res) => {
         // find conversation
         const conversation = await Conversation.findOne({
             participants: { $all: [senderId, receiverId] },
-        });
+        }).populate('messages');
 
         // conversation not found
         if (!conversation) {
