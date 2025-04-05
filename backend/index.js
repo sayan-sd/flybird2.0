@@ -6,14 +6,12 @@ const fileUpload = require("express-fileupload");
 const { connectToDB } = require("./config/db");
 require("dotenv").config();
 const { cloudinaryConnect } = require("./config/cloudinary");
-const { app, server } = require('./socket/socket');
+const { app, server } = require("./socket/socket");
 
 const userRoutes = require("./routes/user.routes");
 const authRoutes = require("./routes/auth.routes");
 const postRoutes = require("./routes/post.routes");
 const messageRoutes = require("./routes/message.routes");
-
-
 
 // middleware
 app.use(express.json());
@@ -23,10 +21,10 @@ app.use(
     cors({
         origin: "http://localhost:5173",
         // origin: "*",
-        methods: ['GET', 'PATCH', 'POST', 'DELETE', 'PUT'],
-        credentials: true
+        methods: ["GET", "PATCH", "POST", "DELETE", "PUT"],
+        credentials: true,
     })
-)
+);
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "./tmp/" }));
 
 // routes

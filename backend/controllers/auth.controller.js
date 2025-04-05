@@ -2,15 +2,111 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Post = require("../models/Post");
+const generateUserName = require("../utils/generatesUserName");
+const OTP = require("../models/OTP");
+const { generateOTP, generateEmailTemplate } = require("../utils/otpUtils");
+const mailSender = require("../utils/mailSender");
 require("dotenv").config();
+
+
+let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
+
+
+// send otp to user
+exports.sendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Check if user exists
+        const existingUser = await User.findOne({
+            email,
+        });
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "Email already registered",
+            });
+        }
+
+        // Generate OTP
+        const otp = generateOTP();
+
+        // Save OTP to database
+        const otpPayload = { email, otp };
+        const otpBody = await OTP.create(otpPayload);
+
+        // Send email
+        await mailSender(
+            email,
+            "Your OTP Code from Canvas",
+            generateEmailTemplate(otp)
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "OTP sent successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Error sending OTP",
+        });
+    }
+};
+
+
+// verify otp and create user
+exports.verifyOTP = async (req, res) => {
+    try {
+        const { email, otp } = req.body;
+
+        // Find the most recent OTP for this email
+        const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
+
+        if (!recentOtp) {
+            return res.status(400).json({
+                success: false,
+                message: "OTP not found",
+            });
+        }
+
+        if (otp !== recentOtp.otp) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP",
+            });
+        }
+
+        // Update verification status
+        await OTP.findByIdAndUpdate(
+            recentOtp._id,
+            { verified: true },
+            { new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Email verified successfully",
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Error verifying OTP",
+        });
+    }
+};
+
 
 // register new user
 exports.register = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { fullname, email, password } = req.body;
 
         // validate data
-        if (!username || !email || !password) {
+        if (!fullname || !email || !password) {
             return res
                 .status(401)
                 .json({ message: "All fields are required", status: false });
@@ -25,10 +121,54 @@ exports.register = async (req, res) => {
                 .json({ message: "User already exists", status: false });
         }
 
+        // Name validation
+        if (fullname.length < 3) {
+            return res.status(403).json({
+                success: false,
+                message: "Fullname must be at least 3 characters long",
+            });
+        }
+
+        // Email validation
+        if (!emailRegex.test(email)) {
+            return res
+                .status(403)
+                .json({ success: false, message: "Invalid email address" });
+        }
+
+        // Password validation
+        if (!passwordRegex.test(password)) {
+            return res.status(403).json({
+                success: false,
+                message:
+                    "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number",
+            });
+        }
+
+
+        // Check for verified OTP
+        const recentOtp = await OTP.findOne({
+            email,
+            verified: true,
+        }).sort({ createdAt: -1 });
+
+        if (!recentOtp) {
+            return res.status(400).json({
+                success: false,
+                message: "Please verify your email first",
+            });
+        }
+
         // hashed password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await User.create({ username, email, password: hashedPassword });
+        // username
+        const username = await generateUserName(email);
+
+        await User.create({ username, email, password: hashedPassword, username });
+
+        // Delete the OTP document after successful signup
+        await OTP.deleteOne({ _id: recentOtp._id });
 
         return res
             .status(200)

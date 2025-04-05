@@ -18,7 +18,7 @@ const Login = () => {
     });
     const [loading, setLoading] = useState(false);
 
-    const { user } = useSelector(store => store.auth);
+    const { user } = useSelector((store) => store.auth);
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -43,7 +43,7 @@ const Login = () => {
             console.log("RESponse", res);
 
             if (res.data.status) {
-                dispatch(setAuthUser(res.data.user))
+                dispatch(setAuthUser(res.data.user));
 
                 toast.success(res.data.message);
                 navigate("/");
@@ -149,7 +149,7 @@ const Login = () => {
                     <p>
                         Don't have an Account?{" "}
                         <Link to={"/auth/signup"} className="text-primary">
-                            Login
+                            Sign up
                         </Link>
                     </p>
                 </div>
