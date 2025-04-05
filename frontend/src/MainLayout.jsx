@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
     return (
         <div>
-            <SideNav />
+            {/* <SideNav /> */}
             <div className="">
                 <Outlet />
             </div>
