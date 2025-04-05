@@ -108,29 +108,33 @@ const SinglePost = ({ post }) => {
     // bookmark post
     const bookmarkHandler = async () => {
         try {
-            const res = await axios.get(import.meta.env.VITE_SERVER_DOMAIN + `/post/bookmark/${post?._id}`, {withCredentials: true});
+            const res = await axios.get(
+                import.meta.env.VITE_SERVER_DOMAIN +
+                    `/post/bookmark/${post?._id}`,
+                { withCredentials: true }
+            );
 
             if (res.data.status) {
                 toast.success(res.data.message);
             }
-            
-        }
-        catch (error) {
+        } catch (error) {
             console.error("Error in bookmarking post", error);
             toast.error(error.response.data.message);
         }
-    }
+    };
 
     return (
         <div className="my-8 w-full max-w-sm mx-auto">
             {/* header */}
             <div className="flex items-center justify-between">
                 {/* user details */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mb-2">
                     {/* profile pic */}
-                    <div className="w-8 h-8 rounded-full bg-red">
-                        <img src={post.author.profilePicture} alt="user" />
-                    </div>
+                    <img
+                        src={post.author.profilePicture}
+                        className="w-8 h-8 rounded-full bg-red"
+                        alt="user"
+                    />
                     <h3>{post.author.username}</h3>
                 </div>
 
@@ -197,17 +201,15 @@ const SinglePost = ({ post }) => {
                     setOpen(true);
                 }}
             >
-                {
-                    comments.length === 0? (
-                        <span>Do the first comment</span>
-                    ) : (
-                        <span>View all {comments.length} comments</span>
-                    )
-                }
+                {comments.length === 0 ? (
+                    <span>Do the first comment</span>
+                ) : (
+                    <span>View all {comments.length} comments</span>
+                )}
             </button>
 
             {/* CommentDialogue */}
-            <CommentDialogue open={open} setOpen={setOpen}/>
+            <CommentDialogue open={open} setOpen={setOpen} />
 
             {/* comment */}
             <div className="flex items-center justify-between">
