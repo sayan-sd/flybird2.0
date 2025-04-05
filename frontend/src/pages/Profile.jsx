@@ -6,6 +6,8 @@ import store from "../store/store";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { setAuthUser, setUserProfile } from "../store/slices/authSlice";
+import '../stylesheets/Profile.css';
+import editIcon from '../assets/profile/pen-fill.svg';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -71,83 +73,130 @@ const Profile = () => {
     };
 
     return (
-        <div className="flex max-w-4xl justify-center mx-auto pl-10 flex-col">
-            <div className="grid grid-cols-2 gap-5">
-                <img
-                    src={userProfile?.profilePicture}
-                    alt="user"
-                    className="w-32 h-32 rounded-full"
-                />
+        <div className="profile-page">
 
-                {/* right section */}
-                <div className="flex flex-col gap-5">
-                    <span className="font-semibold text-2xl">
-                        {userProfile?.username}
-                    </span>
-
-                    <span className="text-gray-600">{userProfile?.bio}</span>
-
-                    {/* action buttons */}
-                    {isLoggedInUser ? (
-                        <div>
-                            <Link
-                                to={"/account/edit"}
-                                className="p-4 bg-primary text-white rounded-md mr-3"
-                            >
-                                Edit Profile
-                            </Link>
-                            <button className="p-4 bg-primary text-white rounded-md">
-                                Something
-                            </button>
-                        </div>
-                    ) : isFollowingUser ? (
-                        <div className="flex gap-5">
-                            <button
-                                className="p-4 bg-primary text-white rounded-md"
-                                onClick={followHandler}
-                            >
-                                Unfollow
-                            </button>
-                            <button className="p-4 bg-primary text-white rounded-md">
-                                Message
-                            </button>
-                        </div>
-                    ) : (
-                        <button
-                            className="p-4 bg-primary text-white rounded-md"
-                            onClick={followHandler}
-                        >
-                            Follow
-                        </button>
-                    )}
-
-                    {/* user activity */}
-                    <div className="flex gap-3">
-                        <p>{userProfile?.posts?.length} posts | </p>
-                        <p>{userProfile?.followers?.length} followers |</p>
-                        <p>{userProfile?.following?.length} following</p>
+            <div className='profile-top-section'>
+                {/*Top Section*/}
+                <div className="profile-main">
+                    <div className='profile-image-section'>
+                        <img
+                            src={userProfile?.profilePicture}
+                            alt="user"
+                            className="profile-image"
+                        />
                     </div>
 
-                    {/* bio here */}
-                    <div></div>
+                    
+
+                    {/* right section */}
+                    <div className="profile-info">
+
+                        {/* user activity */}
+                        <div className="profile-user-info">
+
+                            <div className='info-box'>
+                                <p className='user-info-value'>
+                                    {userProfile?.posts?.length}
+                                </p>
+                                <p className='user-info-label'>
+                                    Posts
+                                </p>
+                            </div>
+
+                            <div className='info-box'>
+                                <p className='user-info-value'>
+                                    {userProfile?.followers?.length}
+                                </p>
+                                <p className='user-info-label'>
+                                    Followers
+                                </p>
+                            </div>
+
+                            <div className='info-box'>
+                                <p className='user-info-value'>
+                                    {userProfile?.following?.length}
+                                </p>
+                                <p className='user-info-label'>
+                                    Following
+                                </p>
+                            </div>
+
+                            {/* action buttons */}
+                            {isLoggedInUser ? (
+                                <div>
+                                    <Link
+                                        to={"/account/edit"}
+                                    >
+                                        <button id='edit-profile-btn'><img src={editIcon} alt=''/>Edit Profile</button>
+                                        
+                                    </Link>
+                                </div>
+
+                            
+                            ) : isFollowingUser ? (  
+                                <div className="following-section">
+                                    <button
+                                        className="follow-btn"
+                                        onClick={followHandler}
+                                    >
+                                        Unfollow
+                                    </button>
+                                    <button className="message-btn">
+                                        Message
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    className="follow-btn"
+                                    onClick={followHandler}
+                                >
+                                    Follow
+                                </button>
+                            )}
+
+                        </div>
+
+
+                        <div className='profile-head'>
+                            <span className="profile-name">{userProfile?.username}</span>
+                            <span className="profile-bio">{userProfile?.bio}</span>
+                        </div>
+
+                        
+
+                       
+
+                        
+                       
+
+                        {/* bio here */}
+                        <div></div>
+                    </div>
                 </div>
+
+                <div className='profile-side'> 
+                <p>Something..</p>
+                </div>
+
             </div>
+
+            
 
             <hr />
 
             {/* tabs */}
-            <div className="flex items-center gap-10 text-xl justify-center my-3">
+            <div className="profile-tabs">
                 <span
-                    className={`py-3 cursor-pointer ${
-                        activeTab === "posts" ? "bg-primary text-white" : ""
+                    className={`profile-posts-btn ${
+                        activeTab === "posts" ? "profile-active-posts-btn" : ""
                     }`}
                     onClick={() => handleTabChange("posts")}
                 >
                     POSTS
                 </span>
                 <span
-                    className={`py-3 cursor-pointer ${
-                        activeTab === "saved" ? "bg-primary text-white" : ""
+                    className={`profile-saved-btn ${
+                        activeTab === "saved" ? "profile-active-saved-btn" : ""
                     }`}
                     onClick={() => handleTabChange("saved")}
                 >
@@ -156,16 +205,16 @@ const Profile = () => {
             </div>
 
             {/* display posts */}
-            <div className="grid grid-cols-3 gap-5">
+            <div className="profile-post-section grid grid-cols-3 gap-5">
                 {displayedPosts?.map((post, index) => (
                     <div key={index}>
                         <img
                             src={post.image}
                             alt="post"
-                            className="w-full h-full object-cover"
+                            className="profile-posts ,w-full h-full object-cover"
                         />
-                        <p>{post.caption}</p>
-                        <p>
+                        <p className='profile-post-caption'>{post.caption}</p>
+                        <p className='profile-post-likes-comments'>
                             {post.likes.length} likes & {post.comments.length}{" "}
                             comments
                         </p>
