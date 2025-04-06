@@ -12,9 +12,9 @@ const Messages = ({ selectedUser }) => {
 
     return (
         <div className=" overflow-y-auto flex-1 p-4">
-            {messages && messages.map((msg) => {
+            {messages && messages.map((msg, idx) => {
                 return (
-                    <div className={`flex ${msg.senderId === user?._id ? "justify-end" : "justify-start"}`}>
+                    <div className={`flex ${msg.senderId === user?._id ? "justify-end" : "justify-start"}`} key={idx}>
                         <div className={`p-2 rounded-lg max-w-xs break-words ${msg.senderId === user?._id ? "bg-primary text-white" : "bg-gray-200"} mb-2`}>
                             {msg?.message}
                         </div>

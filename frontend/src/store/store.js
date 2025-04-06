@@ -21,7 +21,9 @@ const persistConfig = {
     key: "root",
     version: 1,
     storage,
+    blacklist: ['socketio']
 };
+
 
 const rootReducer = combineReducers({
     auth: authSlice,
@@ -45,6 +47,7 @@ const store = configureStore({
                     PERSIST,
                     PURGE,
                     REGISTER,
+                    'persist/PERSIST', 'persist/REHYDRATE'
                 ],
             },
         }),
