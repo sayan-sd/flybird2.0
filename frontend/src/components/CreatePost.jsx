@@ -1,3 +1,4 @@
+import '../stylesheets/CreatePost.css';
 import React, { useEffect, useRef, useState } from "react";
 import { readFileAsDataURL } from "../utils/readFileAsDataURL";
 import { toast } from "react-hot-toast";
@@ -5,7 +6,6 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import store from "../store/store";
 import { setPosts } from "../store/slices/postSlice";
-import '../stylesheets/CreatePost.css';
 
 const CreatePost = ({ open, setOpen }) => {
     const imageRef = useRef();

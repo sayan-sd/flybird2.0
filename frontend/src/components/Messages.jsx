@@ -1,8 +1,8 @@
+import '../stylesheets/Messages.css';
 import React from "react";
 import { useSelector } from "react-redux";
 import useGetAllMessage from "../hooks/useGetAllMessage";
 import useGetRTM from "../hooks/useGetRTM";
-import '../stylesheets/Messages.css';
 
 const Messages = ({ selectedUser }) => {
     useGetAllMessage();
