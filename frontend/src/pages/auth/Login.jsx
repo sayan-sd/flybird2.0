@@ -40,7 +40,7 @@ const Login = () => {
                 }
             );
 
-            console.log("RESponse", res);
+            // console.log("RESponse", res);
 
             if (res.data.status) {
                 dispatch(setAuthUser(res.data.user));
