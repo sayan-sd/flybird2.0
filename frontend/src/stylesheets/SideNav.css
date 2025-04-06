@@ -1,0 +1,25 @@
+.sidenav {
+    background-color: #540D6E;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidenav-item {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #6E6E6E;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sidenav-item:hover {
+    background-color: white;
+    color: #540D6E;
+  }
+  

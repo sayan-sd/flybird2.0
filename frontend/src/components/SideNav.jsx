@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import CreatePost from "./CreatePost";
+import '../stylesheets/SideNav.css';
 
 import {
     Chat,

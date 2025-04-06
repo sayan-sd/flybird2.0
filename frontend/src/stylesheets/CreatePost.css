@@ -1,0 +1,36 @@
+.create-post {
+    background-color: #D9D9D9;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .create-post textarea {
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    padding: 15px;
+    resize: none;
+    font-size: 16px;
+    color: #540D6E;
+    background-color: white;
+  }
+  
+  .create-post textarea::placeholder {
+    color: #6E6E6E;
+  }
+  
+  .create-post button {
+    background-color: #540D6E;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .create-post button:hover {
+    background-color: #6E6E6E;
+  }
+  
