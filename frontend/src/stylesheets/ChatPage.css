@@ -1,9 +1,8 @@
-/* Root container */
 .chat-page-container {
     display: flex;
-    height: calc(100vh - 60px); /* Adjust for navbar height if fixed */
+    height: calc(100vh - 60px); 
     background-color: #f5f5f5;
-    margin-top: 60px; /* Push down if navbar is fixed */
+    margin-top: 60px; 
   }
   
   /* Left Sidebar */

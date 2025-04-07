@@ -130,11 +130,11 @@ const SinglePost = ({ post }) => {
                 {/* user details */}
                 <div className="flex items-center gap-2 mb-2">
                     {/* profile pic */}
-                    <img
-                        src={post.author.profilePicture}
+                    {/* <img
+                        src={post?.author.profilePicture}
                         className="w-8 h-8 rounded-full bg-red"
                         alt="user"
-                    />
+                    /> */}
                     <h3>{post.author.username}</h3>
                 </div>
 

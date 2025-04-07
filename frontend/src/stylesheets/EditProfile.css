@@ -1,0 +1,193 @@
+:root {
+    --primary-color: #540D6E;
+    --primary-hover: #3d0852;
+    --secondary-color: #D9D9D9;
+    --placeholder-color: #6E6E6E;
+    --text-color: #1e1e1e;
+    --container-bg: #f6f1f9;
+  }
+  
+  /* Base Container Styling */
+  .flex {
+    display: flex;
+  }
+  
+  .flex-col {
+    flex-direction: column;
+  }
+  
+  .mx-auto {
+    margin: 0 auto;
+  }
+  
+  .pl-10 {
+    padding-left: 2.5rem;
+  }
+  
+  .max-w-2xl {
+    max-width: 42rem;
+    width: 100%;
+  }
+  
+  .gap-5 {
+    gap: 1.25rem;
+  }
+  
+  .text-2xl {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+  
+  .text-lg {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  /* Edit Container Background */
+  .edit-container {
+    background-color: var(--container-bg);
+    padding: 2rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 6px 12px 20px rgba(84, 13, 110, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Avatar and Username Section */
+  .w-full {
+    width: 100%;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .gap-5 {
+    gap: 1.25rem;
+  }
+  
+  .w-12 {
+    width: 3rem;
+  }
+  
+  .h-12 {
+    height: 3rem;
+  }
+  
+  .rounded-full {
+    border-radius: 50%;
+  }
+  
+  .profile-header p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+  }
+  
+  /* Hidden File Input */
+  input[type="file"] {
+    display: none;
+  }
+  
+  /* Button Style */
+  .bg-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+  
+  .bg-primary:hover {
+    background-color: var(--primary-hover);
+  }
+  
+  button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 14px;
+    font-weight: 500;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  /* Textarea (Bio Input) */
+  textarea {
+    width: 100%;
+    resize: none;
+    padding: 1rem;
+    border-radius: 16px;
+    border: 1.5px solid var(--secondary-color);
+    box-shadow: 0 4px 10px rgba(84, 13, 110, 0.1);
+    font-size: 1rem;
+    color: var(--text-color);
+    outline: none;
+    background-color: #fff;
+    transition: border 0.3s ease;
+    min-height: 100px;
+  }
+  
+  textarea::placeholder {
+    color: var(--placeholder-color);
+  }
+  
+  textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(84, 13, 110, 0.1);
+  }
+  
+  .gender-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    opacity: 0.85;
+  }
+  
+  .gender-dropdown {
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
+    background-color: #f3e6f7; /* Light purple shade */
+    border: 1.5px solid #caa3d6;
+    box-shadow: 0 4px 10px rgba(84, 13, 110, 0.1); /* Light violet border */
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s ease;
+  }
+  
+  .gender-dropdown:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(84, 13, 110, 0.15);
+  }
+  
+  .gender-dropdown option {
+    background-color: #fff;
+    color: var(--text-color);
+  }
+  
+  /* Submit Button */
+  .submit-btn {
+    background-color: var(--primary-color);
+    padding: 0.75rem 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 14px;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+    align-self: flex-start;
+  }
+  
+  .submit-btn:hover {
+    background-color: var(--primary-hover);
+  }
+  
