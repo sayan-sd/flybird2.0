@@ -1,0 +1,104 @@
+/* ==== Container Styling ==== */
+.overflow-y-auto {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding-right: 0.3rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+/* ==== Scrollbar Styling (modern look) ==== */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(128, 128, 128, 0.4);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ==== Flexbox alignments ==== */
+.flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+/* ==== Message Bubble Styling ==== */
+.p-2 {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  position: relative;
+  animation: popIn 0.25s ease-in-out;
+}
+
+.rounded-lg {
+  border-radius: 20px;
+}
+
+.max-w-xs {
+  max-width: 70%;
+}
+
+.break-words {
+  word-break: break-word;
+}
+
+.mb-2 {
+  margin-bottom: 0.6rem;
+}
+
+/* ==== Sent (Your) Message ==== */
+.bg-primary {
+  background-color: #540D6E;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(84, 13, 110, 0.3);
+  border-radius: 20px 20px 0px 20px;
+}
+
+/* ==== Received Message ==== */
+.bg-gray-200 {
+  background-color: #f0f0f0;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 20px 20px 0px 20px;
+}
+
+/* ==== Animations ==== */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

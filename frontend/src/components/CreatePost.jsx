@@ -1,3 +1,4 @@
+import '../stylesheets/CreatePost.css';
 import React, { useEffect, useRef, useState } from "react";
 import { readFileAsDataURL } from "../utils/readFileAsDataURL";
 import { toast } from "react-hot-toast";
