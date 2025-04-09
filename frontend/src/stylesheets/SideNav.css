@@ -67,3 +67,41 @@
   font-size: 0.9rem;
   color: #333;
 }
+
+/* === RESPONSIVE STYLES === */
+@media (max-width: 768px) {
+  .topnav-container {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-icons {
+    gap: 1.5rem;
+  }
+
+  .username {
+    display: none; /* Hide username to save space */
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-icons {
+    gap: 1rem;
+  }
+
+  .profile-section {
+    gap: 0.5rem;
+  }
+
+  .profile-pic {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+}
