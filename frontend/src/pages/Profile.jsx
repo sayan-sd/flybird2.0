@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import store from "../store/store";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { setAuthUser, setUserProfile } from "../store/slices/authSlice";
 import '../stylesheets/Profile.css';
 import editIcon from '../assets/profile/pen-fill.svg';
+
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -30,11 +30,9 @@ const Profile = () => {
     const followHandler = async () => {
         try {
             const res = await axios.post(
-                `${
-                    import.meta.env.VITE_SERVER_DOMAIN
-                }/user/follow-or-unfollow/${userId}`,
-                {}, // Empty body
-                { withCredentials: true } // Moved here
+                `${import.meta.env.VITE_SERVER_DOMAIN}/user/follow-or-unfollow/${userId}`,
+                {},
+                { withCredentials: true }
             );
 
             if (res.data.status) {
@@ -46,7 +44,7 @@ const Profile = () => {
                         following: [...user.following, userId],
                     };
                     updatedFriendUserData = {
-                        userProfile,
+                        ...userProfile,
                         followers: [...userProfile.followers, user._id],
                     };
                 } else {
@@ -74,9 +72,8 @@ const Profile = () => {
 
     return (
         <div className="profile-page">
-
+            {/* Top Section */}
             <div className='profile-top-section'>
-                {/*Top Section*/}
                 <div className="profile-main">
                     <div className='profile-image-section'>
                         <img
@@ -86,19 +83,14 @@ const Profile = () => {
                         />
                     </div>
 
-                    
-
-                    {/* right section */}
                     <div className="profile-info">
-
-                        {/* user activity */}
                         <div className="profile-user-info">
-
                             <div className='info-box'>
                                 <p className='user-info-value'>
                                     {userProfile?.posts?.length}
                                 </p>
                                 <p className='user-info-label'>
+            
                                     Posts
                                 </p>
                             </div>
@@ -121,22 +113,19 @@ const Profile = () => {
                                 </p>
                             </div>
 
-                            {/* action buttons */}
                             {isLoggedInUser ? (
                                 <div>
-                                    <Link
-                                        to={"/account/edit"}
-                                    >
-                                        <button id='edit-profile-btn'><img src={editIcon} alt=''/>Edit Profile</button>
-                                        
+                                    <Link to={"/account/edit"}>
+                                        <button id='edit-profile-btn'>
+                                            <img src={editIcon} alt='Edit'/>
+                                            Edit Profile
+                                        </button>
                                     </Link>
                                 </div>
-
-                            
                             ) : isFollowingUser ? (  
                                 <div className="following-section">
                                     <button
-                                        className="follow-btn"
+                                        className="follow-btn unfollow-btn"
                                         onClick={followHandler}
                                     >
                                         Unfollow
@@ -153,73 +142,61 @@ const Profile = () => {
                                     Follow
                                 </button>
                             )}
-
                         </div>
-
 
                         <div className='profile-head'>
-                            <span className="profile-name">{userProfile?.username}</span>
-                            <span className="profile-bio">{userProfile?.bio}</span>
+                            <h1 className="profile-name">{userProfile?.username}</h1>
+                            <p className="profile-bio">{userProfile?.bio}</p>
                         </div>
-
-                        
-
-                       
-
-                        
-                       
-
-                        {/* bio here */}
-                        <div></div>
                     </div>
                 </div>
-
-                <div className='profile-side'> 
-                <p>Something..</p>
-                </div>
-
             </div>
 
-            
+            <hr className="profile-divider"/>
 
-            <hr />
-
-            {/* tabs */}
+            {/* Tabs */}
             <div className="profile-tabs">
-                <span
-                    className={`profile-posts-btn ${
-                        activeTab === "posts" ? "profile-active-posts-btn" : ""
-                    }`}
+                <button
+                    className={`profile-tab-btn ${activeTab === "posts" ? "active-tab" : ""}`}
                     onClick={() => handleTabChange("posts")}
                 >
-                    POSTS
-                </span>
-                <span
-                    className={`profile-saved-btn ${
-                        activeTab === "saved" ? "profile-active-saved-btn" : ""
-                    }`}
+                    <i class="ri-layout-grid-fill"></i> Posts
+                </button>
+                <button
+                    className={`profile-tab-btn ${activeTab === "saved" ? "active-tab" : ""}`}
                     onClick={() => handleTabChange("saved")}
                 >
-                    SAVED
-                </span>
+                    <i class="ri-bookmark-fill"></i>Saved
+                </button>
             </div>
 
-            {/* display posts */}
-            <div className="profile-post-section grid grid-cols-3 gap-5">
-                {displayedPosts?.map((post, index) => (
-                    <div key={index}>
-                        <img
-                            src={post.image}
-                            alt="post"
-                            className="profile-posts ,w-full h-full object-cover"
-                        />
-                        <p className='profile-post-caption'>{post.caption}</p>
-                        <p className='profile-post-likes-comments'>
-                            {post.likes.length} likes & {post.comments.length}{" "}
-                            comments
-                        </p>
+            {/* Posts Grid */}
+            <div className="profile-post-grid">
+                {displayedPosts?.length > 0 ? (
+                    displayedPosts.map((post, index) => (
+                        <div className="profile-post-item" key={index}>
+                            <img
+                                src={post.image}
+                                alt="post"
+                                className="profile-post-image"
+                            />
+                            <div className="post-hover-info">
+                                <span className="post-likes">
+                                <i class="ri-heart-3-fill"></i> {post.likes.length}
+                                </span>
+                                <span className="post-comments">
+                                <i class="ri-chat-3-line"></i> {post.comments.length}
+                                </span>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="empty-posts-message">
+                        {activeTab === "posts" 
+                            ? "No posts yet" 
+                            : "No saved posts"}
                     </div>
-                ))}
+                )}
             </div>
         </div>
     );

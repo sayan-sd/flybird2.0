@@ -8,10 +8,10 @@ import React, { useState } from "react";
 import CommentDialogue from "./CommentDialogue";
 import PostActionPallet from "./PostActionPallet";
 import { useDispatch, useSelector } from "react-redux";
-import store from "../../store/store";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { setPosts, setSelectedPost } from "../../store/slices/postSlice";
+import '../../stylesheets/Post.css'
 
 const SinglePost = ({ post }) => {
     const { user } = useSelector((store) => store.auth);
@@ -25,33 +25,23 @@ const SinglePost = ({ post }) => {
     const [likeCount, setLikeCount] = useState(post.likes.length);
     const [comments, setComments] = useState(post.comments);
 
-    // handle post caption
     const changeEventHandler = (e) => {
         const inputText = e.target.value;
-        if (inputText.trim()) {
-            setText(inputText);
-        } else {
-            setText("");
-        }
+        setText(inputText.trim() ? inputText : "");
     };
 
-    // like post
     const likePostHandler = async (postId) => {
         try {
             const action = liked ? "dislike" : "like";
             const res = await axios.get(
-                import.meta.env.VITE_SERVER_DOMAIN +
-                    `/post/${action}/${postId}`,
-                {
-                    withCredentials: true,
-                }
+                `${import.meta.env.VITE_SERVER_DOMAIN}/post/${action}/${postId}`,
+                { withCredentials: true }
             );
 
             if (res.data.status) {
                 setLikeCount(action === "like" ? likeCount + 1 : likeCount - 1);
                 setLiked(!liked);
 
-                // update the post with latest like count
                 const updatedPostData = posts.map((p) =>
                     p._id === postId
                         ? {
@@ -63,26 +53,21 @@ const SinglePost = ({ post }) => {
                         : p
                 );
                 dispatch(setPosts(updatedPostData));
-
                 toast.success(res.data.message);
             }
         } catch (error) {
             console.error("Error in liking post", error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Error liking post");
         }
     };
 
-    // comment on post
     const commentHandler = async () => {
         try {
             const res = await axios.post(
-                import.meta.env.VITE_SERVER_DOMAIN +
-                    `/post/comment/${post._id}`,
+                `${import.meta.env.VITE_SERVER_DOMAIN}/post/comment/${post._id}`,
                 { text },
                 {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json" },
                     withCredentials: true,
                 }
             );
@@ -101,11 +86,10 @@ const SinglePost = ({ post }) => {
             }
         } catch (error) {
             console.error("Error in commenting on post", error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Error adding comment");
         }
     };
 
-    // bookmark post
     const bookmarkHandler = async () => {
         try {
             const res = await axios.get(
@@ -124,31 +108,28 @@ const SinglePost = ({ post }) => {
     };
 
     return (
-        <div className="my-8 w-full max-w-sm mx-auto">
-            {/* header */}
-            <div className="flex items-center justify-between">
-                {/* user details */}
-                <div className="flex items-center gap-2 mb-2">
-                    {/* profile pic */}
-                    {/* <img
+        <div className="post-container">
+            {/* Header */}
+            <div className="post-header">
+                <div className="post-user-info">
+                    <img
                         src={post?.author.profilePicture}
-                        className="w-8 h-8 rounded-full bg-red"
-                        alt="user"
-                    /> */}
-                    <h3>{post.author.username}</h3>
+                        className="post-user-avatar"
+                        alt={post.author.username}
+                    />
+                    <span className="post-username">{post.author.username}</span>
                 </div>
 
-                {/* action buttons */}
                 <button
-                    className="flex items-center"
+                    className="post-actions-button"
                     onClick={() => setPostActionOpen(true)}
+                    aria-label="Post actions"
                 >
-                    <span className="w-2.5 h-2.5 rounded-full bg-gray-600 ml-1"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-gray-600 ml-1"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-gray-600 ml-1"></span>
+                    <span className="post-action-dot"></span>
+                    <span className="post-action-dot"></span>
+                    <span className="post-action-dot"></span>
                 </button>
 
-                {/* Post Action Pallet */}
                 <PostActionPallet
                     open={postActionOpen}
                     setOpen={setPostActionOpen}
@@ -158,75 +139,89 @@ const SinglePost = ({ post }) => {
                 />
             </div>
 
-            {/* image */}
-            <div>
+            {/* Image */}
+            <div className="post-image-container">
                 <img
                     src={post.image}
-                    alt="image"
-                    className="rounded-sm w-full aspect-square object-cover"
+                    alt={`Post by ${post.author.username}`}
+                    className="post-image"
                 />
             </div>
 
-            {/* action button */}
-            <div className="flex items-center justify-between">
-                <div className="flex gap-3 items-center">
-                    <div className="flex gap-1">
+            {/* Action Buttons */}
+            <div className="post-actions">
+                <div className="post-left-actions">
+                    <button 
+                        className={`post-action-button ${liked ? 'post-action-button--active' : ''}`}
+                        onClick={() => likePostHandler(post._id)}
+                        aria-label={liked ? "Unlike post" : "Like post"}
+                    >
                         <Heart
                             size={24}
-                            onClick={() => likePostHandler(post._id)}
-                            className={liked ? "text-red" : ""}
                             weight={liked ? "fill" : "regular"}
                         />
-                        <span>{likeCount} likes</span>
-                    </div>
-                    <ChatCircle
+                        <span className="post-like-count">{likeCount} likes</span>
+                    </button>
+                    <button 
+                        className="post-action-button"
                         onClick={() => {
                             dispatch(setSelectedPost(post));
                             setOpen(true);
                         }}
-                        size={24}
-                    />
-                    <PaperPlaneTilt size={24} />
+                        aria-label="Comment"
+                    >
+                        <ChatCircle size={24} />
+                    </button>
+                    <button className="post-action-button" aria-label="Share">
+                        <PaperPlaneTilt size={24} />
+                    </button>
                 </div>
-                <BookmarkSimple size={24} onClick={bookmarkHandler} />
+                <button 
+                    className="post-action-button"
+                    onClick={bookmarkHandler}
+                    aria-label="Bookmark"
+                >
+                    <BookmarkSimple size={24} />
+                </button>
             </div>
 
-            {/* caption */}
-            <p className="text-sm text-gray-600">{post.caption}</p>
+            {/* Caption */}
+            <div className="post-caption">
+                <span className="post-caption-username">{post.author.username}</span>
+                <span className="post-caption-text">{post.caption}</span>
+            </div>
 
-            {/* view all comments */}
+            {/* Comments */}
             <button
+                className="post-comments-button"
                 onClick={() => {
                     dispatch(setSelectedPost(post));
                     setOpen(true);
                 }}
             >
-                {comments.length === 0 ? (
-                    <span>Do the first comment</span>
-                ) : (
-                    <span>View all {comments.length} comments</span>
-                )}
+                {comments.length === 0
+                    ? "Be the first to comment"
+                    : `View all ${comments.length} comments`}
             </button>
 
-            {/* CommentDialogue */}
             <CommentDialogue open={open} setOpen={setOpen} />
 
-            {/* comment */}
-            <div className="flex items-center justify-between">
+            {/* Add Comment */}
+            <div className="post-add-comment">
                 <input
                     type="text"
                     placeholder="Add a comment..."
-                    className="outline-none text-sm w-full"
+                    className="post-comment-input"
                     value={text}
                     onChange={changeEventHandler}
                 />
                 {text && (
-                    <span
-                        className="text-primary cursor-pointer"
-                        onClick={() => commentHandler()}
+                    <button
+                        className="post-comment-submit"
+                        onClick={commentHandler}
                     >
                         Post
-                    </span>
+                    </button>
                 )}
             </div>
         </div>

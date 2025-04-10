@@ -78,7 +78,9 @@ const TopNav = () => {
     return (
         <>
             <div className="topnav-container">
-                <div className="logo" onClick={() => handleNav("Home")}>FlyBird</div>
+                <div className="logo" onClick={() => handleNav("Home")}>
+                    <img src="/public/logo.png" alt="logo" />
+                    FlyBird</div>
 
                 <div className="nav-icons">
                     <div onClick={() => handleNav("Home")} className="icon-box"><House size={26} /></div>
@@ -100,7 +102,7 @@ const TopNav = () => {
                         className="profile-pic"
                         onClick={() => handleNav("Profile")}
                     />
-                    <span className="username">{user?.username}</span>
+                    <span id="username">{user?.username}</span>
                     <div className="icon-box" onClick={logoutHandler}><SignOut size={26} /></div>
                 </div>
             </div>

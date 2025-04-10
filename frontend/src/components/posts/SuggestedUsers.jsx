@@ -1,44 +1,37 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import store from "../../store/store";
 import { Link } from "react-router-dom";
+import"../../stylesheets/Suggest.css";
 
 const SuggestedUsers = () => {
     const { suggestedUsers } = useSelector((store) => store.auth);
     return (
-        <div className="my-10">
-            <div className="flex items-center justify-between gap-3">
-                <h2 className="font-semibold text-gray-600">
-                    Suggested for you
-                </h2>
-                <span className="font-medium cursor-pointer">See All</span>
+        <div className="suggested-users-container">
+            <div className="suggested-users-header">
+                <h2 className="suggested-users-title">Suggested for you</h2>
+                <span className="see-all-link">See All</span>
             </div>
 
-            {/* suggested users */}
-            {suggestedUsers?.map((user) => {
-                return (
-                    <div key={user._id}>
-                        <div className="flex items-center gap-3">
+            <div className="suggested-users-list">
+                {suggestedUsers?.map((user) => (
+                    <div key={user._id} className="suggested-user-item">
+                        <div className="user-main-info">
                             <img
                                 src={user.profilePicture}
-                                alt="user"
-                                className="w-8 h-8 rounded-full"
+                                alt={user.username}
+                                className="user-avatar"
                             />
-                            <Link to={`/profile/${user._id}`}>
-                                <span>{user.username}</span>
-                            </Link>
-                            <span className="text-gray-600 text-xs">
-                                {user.bio}
-                            </span>
-
-                            {/* follow button */}
-                            <button className="text-white rounded-md p-3 text-xs bg-primary ">
-                                Follow
-                            </button>
+                            <div className="user-text-info">
+                                <Link to={`/profile/${user._id}`} className="username-link">
+                                    {user.username}
+                                </Link>
+                                <p className="user-bio">{user.bio}</p>
+                            </div>
                         </div>
+                        <button className="follow-button">Follow</button>
                     </div>
-                );
-            })}
+                ))}
+            </div>
         </div>
     );
 };

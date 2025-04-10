@@ -6,6 +6,7 @@ import Messages from "../components/Messages";
 import toast from "react-hot-toast";
 import { setMessages } from "../store/slices/chatSlice";
 import axios from "axios";
+import '../stylesheets/ChatPage.css';
 
 const ChatPage = () => {
     const dispatch = useDispatch();
