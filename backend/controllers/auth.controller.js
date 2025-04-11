@@ -8,10 +8,8 @@ const { generateOTP, generateEmailTemplate } = require("../utils/otpUtils");
 const mailSender = require("../utils/mailSender");
 require("dotenv").config();
 
-
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
-
 
 // send otp to user
 exports.sendOTP = async (req, res) => {
@@ -56,14 +54,17 @@ exports.sendOTP = async (req, res) => {
     }
 };
 
-
 // verify otp and create user
 exports.verifyOTP = async (req, res) => {
     try {
         const { email, otp } = req.body;
 
+        // console.log(email, otp);
+
         // Find the most recent OTP for this email
         const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
+
+        // console.log(recentOtp);
 
         if (!recentOtp) {
             return res.status(400).json({
@@ -72,7 +73,7 @@ exports.verifyOTP = async (req, res) => {
             });
         }
 
-        if (otp !== recentOtp.otp) {
+        if (otp != recentOtp.otp) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid OTP",
@@ -99,7 +100,6 @@ exports.verifyOTP = async (req, res) => {
     }
 };
 
-
 // register new user
 exports.register = async (req, res) => {
     try {
@@ -111,6 +111,8 @@ exports.register = async (req, res) => {
                 .status(401)
                 .json({ message: "All fields are required", status: false });
         }
+
+        // console.log(fullname, email, password);
 
         // check if user already exists
         const user = await User.findOne({ email });
@@ -145,7 +147,6 @@ exports.register = async (req, res) => {
             });
         }
 
-
         // Check for verified OTP
         const recentOtp = await OTP.findOne({
             email,
@@ -165,14 +166,34 @@ exports.register = async (req, res) => {
         // username
         const username = await generateUserName(email);
 
-        await User.create({ username, email, password: hashedPassword, username });
+        // console.log(hashedPassword, username);
+
+        const newUser = await User.create({
+            fullname,
+            email,
+            password: hashedPassword,
+            username,
+        });
 
         // Delete the OTP document after successful signup
         await OTP.deleteOne({ _id: recentOtp._id });
 
+        // create token
+        const token = await jwt.sign(
+            { userId: newUser._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "1d" }
+        );
+
         return res
+            .cookie("token", token, {
+                httpOnly: true,
+                sameSite: "strict",
+                secure: true,
+                maxAge: 1 * 24 * 60 * 60 * 1000,
+            })
             .status(200)
-            .json({ message: "Account created successfully", status: true });
+            .json({ message: "Account created successfully", status: true, user: newUser});
     } catch (error) {
         console.log("Error in registering user", error);
         return res
@@ -224,12 +245,12 @@ exports.login = async (req, res) => {
             user.posts.map(async (postId) => {
                 const post = await Post.findById(postId);
 
-                if(post && post.author.equals(user._id)){
+                if (post && post.author.equals(user._id)) {
                     return post;
                 }
                 return null;
             })
-        )
+        );
         user = {
             _id: user._id,
             username: user.username,

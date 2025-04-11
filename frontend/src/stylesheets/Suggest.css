@@ -1,0 +1,114 @@
+.suggested-users-container {
+    margin: 2.5rem 0;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    border-radius: 20px;
+    background: white;
+}
+
+.suggested-users-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.suggested-users-title {
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0;
+}
+
+.see-all-link {
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.see-all-link:hover {
+    color: var(--hover);
+}
+
+.suggested-users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.suggested-user-item {
+    background-color: #e7e7e7;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.suggested-user-item:hover {
+    background-color: #c5c5c5;
+    transform: scale(1.02);
+}
+
+.user-main-info {
+    
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-text-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.username-link {
+    font-weight: 600;
+    color: var(--dark);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-bio {
+    color: var(--gray);
+    font-size: 0.8rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.follow-button {
+    background-color: var(--violet);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.follow-button:hover {
+    background-color: var(--hover);
+    transform: translateY(-1px);
+}

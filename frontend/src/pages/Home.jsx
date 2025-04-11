@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import RightSideBar from "../components/posts/RightSideBar";
 import useGetAllPosts from "../hooks/useGetAllPosts";
 import useGetSuggestedUsers from "../hooks/useGetSuggestedUsers";
+import ChatPreview from "../components/ChatPreview";
 
 const Home = () => {
     useGetAllPosts();
@@ -15,7 +16,11 @@ const Home = () => {
                 <Feed />
                 <Outlet />
             </div>
-            <RightSideBar />
+            <div className="rightSidebar" className="mt-10">
+                <ChatPreview />
+                <RightSideBar />
+            </div>
+           
         </div>
     );
 };

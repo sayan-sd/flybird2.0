@@ -11,10 +11,12 @@ import ChatPage from "./pages/ChatPage";
 import Notification from "./pages/Notification";
 import { io } from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
-import { setSocket } from "./store/slices/socketSlice";
-import { setOnlineUsers } from "./store/slices/chatSlice";
-import { setLikeNotification } from "./store/slices/RTNSlice";
+// import { setSocket } from "./store/slices/socketSlice";
+// import { setOnlineUsers } from "./store/slices/chatSlice";
+// import { setLikeNotification } from "./store/slices/RTNSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { initializeSocket, closeSocket } from "./utils/socket";
+import { setConnectionStatus } from "./store/slices/socketSlice";
 
 const browserRouter = createBrowserRouter([
     {
@@ -79,39 +81,28 @@ const browserRouter = createBrowserRouter([
 
 function App() {
     const dispatch = useDispatch();
-
     const { user } = useSelector((store) => store.auth);
-    const { socket } = useSelector((store) => store.socketio);
+    const { isConnected } = useSelector((store) => store.socketio);
 
     useEffect(() => {
         if (user) {
-            const socketio = io(import.meta.env.VITE_SOCKET_SERVER_DOMAIN, {
-                query: {
-                    userId: user?._id,
-                },
-                transports: ["websocket"],
+            // Initialize socket through our utility
+            const socket = initializeSocket(user?._id);
+            
+            // Update connection status
+            socket.on('connect', () => {
+                dispatch(setConnectionStatus(true));
             });
-            dispatch(setSocket(socketio));
-
-            // ====== listen to events ======
-            // get list of online users
-            socketio.on("getOnlineUsers", (onlineUsers) => {
-                dispatch(setOnlineUsers(onlineUsers));
-            });
-
-            // notification
-            socketio.on("notification", (notification) => {
-                // console.log(notification);
-                dispatch(setLikeNotification(notification));
+            
+            socket.on('disconnect', () => {
+                dispatch(setConnectionStatus(false));
             });
         }
 
-        // clean up if no user
+        // Clean up
         return () => {
-            if (socket) {
-                socket.close();
-                dispatch(setSocket(null));
-            }
+            closeSocket();
+            dispatch(setConnectionStatus(false));
         };
     }, [user, dispatch]);
 
