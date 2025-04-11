@@ -60,6 +60,7 @@
 .post-image-container {
     width: 100%;
     aspect-ratio: 1.5/1;
+    cursor: pointer;
 }
 
 .post-image {

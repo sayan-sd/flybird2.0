@@ -10,8 +10,11 @@ import PostActionPallet from "./PostActionPallet";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { setPosts, setSelectedPost } from "../../store/slices/postSlice";
 import '../../stylesheets/Post.css'
+
+
 
 const SinglePost = ({ post }) => {
     const { user } = useSelector((store) => store.auth);
@@ -107,18 +110,22 @@ const SinglePost = ({ post }) => {
         }
     };
 
+
+   
     return (
         <div className="post-container">
             {/* Header */}
             <div className="post-header">
-                <div className="post-user-info">
-                    <img
-                        src={post?.author.profilePicture}
-                        className="post-user-avatar"
-                        alt={post.author.username}
-                    />
-                    <span className="post-username">{post.author.username}</span>
-                </div>
+                <Link to={`/profile/${post.author._id}` }>
+                        <div className="post-user-info">
+                            <img
+                                src={post?.author.profilePicture}
+                                className="post-user-avatar"
+                                alt={post.author.username}
+                            />
+                            <span className="post-username">{post.author.username}</span>
+                        </div>
+                    </Link>
 
                 <button
                     className="post-actions-button"
@@ -140,13 +147,20 @@ const SinglePost = ({ post }) => {
             </div>
 
             {/* Image */}
-            <div className="post-image-container">
-                <img
-                    src={post.image}
-                    alt={`Post by ${post.author.username}`}
-                    className="post-image"
-                />
-            </div>
+            <Link to='/post'>
+                <div className="post-image-container"
+                    onClick={() => {
+                        dispatch(setSelectedPost(post));
+                    }}
+                >
+                    <img
+                        src={post.image}
+                        alt={`Post by ${post.author.username}`}
+                        className="post-image"
+                    />
+                </div>
+            </Link>
+           
 
             {/* Action Buttons */}
             <div className="post-actions">
@@ -224,7 +238,9 @@ const SinglePost = ({ post }) => {
                     </button>
                 )}
             </div>
+            
         </div>
+        
     );
 };
 
