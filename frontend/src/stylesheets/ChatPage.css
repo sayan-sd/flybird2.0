@@ -117,8 +117,18 @@
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
+  height: 100vh;
 }
 
+/* ===== SCROLLABLE MESSAGE AREA ===== */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+}
+
+/* ===== PLACEHOLDER IF NO USER SELECTED ===== */
 .no-user-selected {
   flex: 1;
   display: flex;
@@ -181,6 +191,9 @@
   padding: 1rem;
   background-color: white;
   border-top: 1px solid #f0f0f0;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .message-input {
@@ -221,7 +234,8 @@
 
 /* ===== SCROLLBAR STYLING ===== */
 .suggested-users::-webkit-scrollbar,
-.chat-section::-webkit-scrollbar {
+.chat-section::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar {
   width: 6px;
 }
 
@@ -230,7 +244,8 @@
   border-radius: 3px;
 }
 
-.chat-section::-webkit-scrollbar-thumb {
+.chat-section::-webkit-scrollbar-thumb,
+.chat-messages::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
 }
@@ -240,12 +255,12 @@
   .chat-page-container {
     flex-direction: column;
   }
-  
+
   .contact-section {
     width: 100%;
     height: 200px;
   }
-  
+
   .chat-section {
     height: calc(100vh - 200px);
   }
@@ -255,15 +270,15 @@
   .current-user h1 {
     font-size: 1rem;
   }
-  
+
   .username {
     font-size: 0.85rem;
   }
-  
+
   .message-input {
     padding: 0.7rem 1rem;
   }
-  
+
   .send-button {
     padding: 0.7rem 1.2rem;
   }
