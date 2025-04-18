@@ -34,16 +34,12 @@ const CreatePost = ({ open, setOpen }) => {
         };
     }, [open, setOpen]);
 
-    // If `open` is false, don't render anything
     if (!open) return null;
 
-    // Stop propagation of clicks on the dialog box so clicking inside
-    // doesn't close the dialog, while clicking on the overlay does.
     const handleDialogClick = (e) => {
         e.stopPropagation();
     };
 
-    // create post handler
     const createPostHandler = async () => {
         const formData = new FormData();
         formData.append("caption", caption);
@@ -63,7 +59,7 @@ const CreatePost = ({ open, setOpen }) => {
             );
 
             if (res.data.status) {
-                dispatch(setPosts([res.data.post, ...posts])); // add new post to post slice
+                dispatch(setPosts([res.data.post, ...posts]));
                 toast.success(res.data.message);
                 setOpen(false);
             }
@@ -75,7 +71,6 @@ const CreatePost = ({ open, setOpen }) => {
         }
     };
 
-    // image upload handler
     const fileChangeHandler = async (e) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -88,13 +83,12 @@ const CreatePost = ({ open, setOpen }) => {
     return (
         <div
             className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
-            onClick={() => setOpen(false)} // close on overlay click
+            onClick={() => setOpen(false)}
         >
             <div
                 className="relative w-full max-w-xl p-4 bg-white rounded-md shadow-lg"
                 onClick={handleDialogClick}
             >
-                {/* Close button  */}
                 <button
                     type="button"
                     onClick={() => setOpen(false)}
@@ -121,7 +115,6 @@ const CreatePost = ({ open, setOpen }) => {
                     </div>
                 </div>
 
-                {/* textarea */}
                 <textarea
                     className="focus-visible:ring-transparent border-none w-full resize-none h-12"
                     placeholder="What's on your mind"
@@ -131,11 +124,11 @@ const CreatePost = ({ open, setOpen }) => {
 
                 {/* image preview */}
                 {iamgePreview && (
-                    <div className="w-full h-64 flex items-center justify-center">
+                    <div className="w-full aspect-video flex items-center justify-center overflow-hidden rounded-md mb-4">
                         <img
                             src={iamgePreview}
                             alt="preview"
-                            className="object-cover h-full w-full rounded-md"
+                            className="object-cover w-full h-full"
                         />
                     </div>
                 )}
@@ -147,28 +140,32 @@ const CreatePost = ({ open, setOpen }) => {
                     ref={imageRef}
                     onChange={fileChangeHandler}
                 />
-                <button
-                    onClick={() => imageRef.current.click()}
-                    className="w-fit mx-auto bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded"
-                >
-                    Upload Image
-                </button>
 
-                {/* Post button on image upload */}
-                {iamgePreview &&
-                    (loading ? (
-                        <button className="w-fit mx-auto bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded">
-                            Posting...
-                        </button>
-                    ) : (
-                        <button
-                            type="submit"
-                            onClick={createPostHandler}
-                            className="w-fit mx-auto bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded"
-                        >
-                            Post
-                        </button>
-                    ))}
+                {/* upload + post buttons in a row */}
+                <div className="flex justify-between items-center mt-4 gap-4 flex-wrap">
+                    <button
+                        onClick={() => imageRef.current.click()}
+                        className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded"
+                    >
+                        Upload Image
+                    </button>
+
+                    {iamgePreview && (
+                        loading ? (
+                            <button className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded">
+                                Posting...
+                            </button>
+                        ) : (
+                            <button
+                                type="submit"
+                                onClick={createPostHandler}
+                                className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded"
+                            >
+                                Post
+                            </button>
+                        )
+                    )}
+                </div>
             </div>
         </div>
     );
