@@ -4,11 +4,12 @@
   height: 100vh;
   width: 100%;
   background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* ===== LEFT SIDEBAR (CONTACTS) ===== */
 .contact-section {
-  width: 350px;
+  width: 340px;
   background-color: #540D6E;
   color: white;
   display: flex;
@@ -20,16 +21,17 @@
 .current-user {
   display: flex;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1.2rem 1.5rem;
   gap: 1rem;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.15);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .current-user h1 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
+  color: #fff;
 }
 
 .search-input {
@@ -41,7 +43,7 @@
   color: white;
   font-size: 0.9rem;
   outline: none;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
 }
 
 .search-input::placeholder {
@@ -56,7 +58,7 @@
 .suggested-users {
   flex: 1;
   overflow-y: auto;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
 }
 
 /* ===== USER ENTRY STYLES ===== */
@@ -64,10 +66,10 @@
   display: flex;
   align-items: center;
   padding: 0.8rem 1rem;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
+  border-radius: 15px;
+  margin-bottom: 0.6rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s ease;
 }
 
 .user-entry:hover {
@@ -79,27 +81,25 @@
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.25);
 }
 
 .user-info {
-  margin-left: 1rem;
+  margin-left: 0.8rem;
   flex: 1;
 }
 
 .username {
   font-weight: 500;
   font-size: 0.95rem;
-  display: block;
 }
 
 .status {
   font-size: 0.75rem;
-  display: block;
   margin-top: 0.2rem;
 }
 
@@ -111,51 +111,30 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* ===== RIGHT SIDE (CHAT AREA) ===== */
+/* ===== RIGHT SECTION (CHAT AREA) ===== */
 .chat-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: #fff;
   height: 100vh;
-}
-
-/* ===== SCROLLABLE MESSAGE AREA ===== */
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem 1.5rem;
-  background-color: #f8f9fa;
-}
-
-/* ===== PLACEHOLDER IF NO USER SELECTED ===== */
-.no-user-selected {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f9fa;
-}
-
-.no-user-selected h2 {
-  color: #888;
-  font-weight: 400;
 }
 
 /* ===== CHAT HEADER ===== */
 .chat-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #f0f0f0;
-  background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  background-color: #3d0a50
 }
 
 .chat-header-user {
   display: flex;
   align-items: center;
   gap: 1rem;
+  color:white;
 }
 
 .chat-header-avatar {
@@ -169,12 +148,11 @@
 .chat-header-name {
   font-size: 1.1rem;
   font-weight: 600;
-  margin: 0 0 0.2rem 0;
+  margin-bottom: 0.2rem;
 }
 
 .chat-header-status {
   font-size: 0.8rem;
-  margin: 0;
 }
 
 .chat-header-status.online {
@@ -185,12 +163,35 @@
   color: #888;
 }
 
-/* ===== MESSAGE INPUT ===== */
+/* ===== CHAT MESSAGES AREA ===== */
+.chat-messages {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+/* ===== PLACEHOLDER WHEN NO USER SELECTED ===== */
+.no-user-selected {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.no-user-selected h2 {
+  color: #999;
+  font-weight: 400;
+}
+
+/* ===== MESSAGE INPUT SECTION ===== */
 .message-input-container {
   display: flex;
+  align-items: center;
   padding: 1rem;
-  background-color: white;
-  border-top: 1px solid #f0f0f0;
+  background-color: #fff;
+  border-top: 1px solid #eee;
   position: sticky;
   bottom: 0;
   z-index: 10;
@@ -198,31 +199,30 @@
 
 .message-input {
   flex: 1;
-  padding: 0.8rem 1.2rem;
+  padding: 0.85rem 1.2rem;
   border-radius: 24px;
   border: 1px solid #e0e0e0;
-  outline: none;
   font-size: 0.95rem;
-  transition: all 0.2s ease;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 .message-input:focus {
   border-color: #540D6E;
-  box-shadow: 0 0 0 2px rgba(84, 13, 110, 0.1);
+  box-shadow: 0 0 0 2px rgba(84, 13, 110, 0.15);
 }
 
 .send-button {
   margin-left: 1rem;
-  padding: 0.8rem 1.5rem;
-  background-color: #540D6E;
+  padding: 0.8rem 1.4rem;
+  background-color: white;
   color: white;
-  border: none;
-  border-radius: 24px;
+  border: 1px solid #540D6E;
+  border-radius: 35px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
-
 .send-button:hover {
   background-color: #3d0a50;
   transform: translateY(-1px);
@@ -234,7 +234,6 @@
 
 /* ===== SCROLLBAR STYLING ===== */
 .suggested-users::-webkit-scrollbar,
-.chat-section::-webkit-scrollbar,
 .chat-messages::-webkit-scrollbar {
   width: 6px;
 }
@@ -244,10 +243,108 @@
   border-radius: 3px;
 }
 
-.chat-section::-webkit-scrollbar-thumb,
 .chat-messages::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.15);
   border-radius: 3px;
+}
+
+/* ===== DARK MODE STYLES ===== */
+.dark-theme {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+.dark-theme .chat-page-container {
+  background-color: #121212;
+}
+
+.dark-theme .contact-section {
+  background-color: #1a1a1a;
+}
+
+.dark-theme .chat-header {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.dark-theme .message-input-container {
+  background-color: #1a1a1a;
+}
+
+.dark-theme .message-input {
+  background-color: #333;
+  color: #f1f1f1;
+}
+
+.dark-theme .send-button {
+  background-color: white;
+}
+
+/* ===== EMOJI PICKER ===== */
+.emoji-picker {
+  position: absolute;
+  bottom: 70px;
+  left: 20px;
+  z-index: 10;
+}
+
+/* ===== TYPING INDICATOR ===== */
+.typing-indicator {
+  padding: 0.5rem 1rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* ===== CHAT TOOLS (VOICE, CALL, PIN, DISAPPEARING) ===== */
+.chat-tools button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px;
+  color: #540D6E;
+}
+
+.chat-tools button:hover {
+  color: #7f27a3;
+}
+
+/* ===== VOICE/VIDEO BUTTONS ===== */
+.voice-call-button,
+.video-call-button {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  margin-left: 10px;
+  color: #540D6E;
+}
+
+.voice-call-button:hover,
+.video-call-button:hover {
+  color: #7f27a3;
+}
+
+/* ===== FILE SHARING BUTTON ===== */
+.file-input-button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+/* ===== DISAPPEARING MESSAGE BUTTON ===== */
+.disappearing-message-button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.disappearing-message-button:hover {
+  color: #7f27a3;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -258,11 +355,11 @@
 
   .contact-section {
     width: 100%;
-    height: 200px;
+    height: 220px;
   }
 
   .chat-section {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 220px);
   }
 }
 
@@ -280,6 +377,42 @@
   }
 
   .send-button {
-    padding: 0.7rem 1.2rem;
+    padding: 0.7rem 1.1rem;
   }
 }
+
+/* ===== GLOBAL ICON STYLING ===== */
+.chat-tools button,
+.voice-call-button,
+.video-call-button,
+.file-input-button,
+.disappearing-message-button,
+.send-button svg,
+.chat-header svg {
+  color: white !important;
+  fill: white !important;
+}
+
+/* Optional: Add hover effect using accent color */
+.chat-tools button:hover,
+.voice-call-button:hover,
+.video-call-button:hover,
+.file-input-button:hover,
+.disappearing-message-button:hover,
+.send-button:hover svg,
+.chat-header svg:hover {
+  color: #d9d9d9 !important;
+  fill: #d9d9d9 !important;
+  transition: color 0.2s ease, fill 0.2s ease;
+}
+
+/* Optional: Make SVG icons slightly bigger and uniform */
+.chat-tools button svg,
+.voice-call-button svg,
+.video-call-button svg,
+.file-input-button svg,
+.disappearing-message-button svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
