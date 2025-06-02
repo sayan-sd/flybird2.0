@@ -7,13 +7,17 @@ import toast from "react-hot-toast";
 import { setAuthUser, setUserProfile } from "../store/slices/authSlice";
 import '../stylesheets/Profile.css';
 import editIcon from '../assets/profile/pen-fill.svg';
+import { setSelectedPost } from "../store/slices/postSlice";
 
 
 const Profile = () => {
-    const dispatch = useDispatch();
     const params = useParams();
     const userId = params.id;
     useGetUserProfile(userId);
+    const dispatch = useDispatch();
+
+    // Getting all Posts from store
+    const { posts } = useSelector((store) => store.post);
 
     const [activeTab, setActiveTab] = useState("posts");
     const { userProfile, user } = useSelector((store) => store.auth);
@@ -160,13 +164,13 @@ const Profile = () => {
                     className={`profile-tab-btn ${activeTab === "posts" ? "active-tab" : ""}`}
                     onClick={() => handleTabChange("posts")}
                 >
-                    <i class="ri-layout-grid-fill"></i> Posts
+                    <i className="ri-layout-grid-fill"></i> Posts
                 </button>
                 <button
                     className={`profile-tab-btn ${activeTab === "saved" ? "active-tab" : ""}`}
                     onClick={() => handleTabChange("saved")}
                 >
-                    <i class="ri-bookmark-fill"></i>Saved
+                    <i className="ri-bookmark-fill"></i>Saved
                 </button>
             </div>
 
@@ -174,21 +178,39 @@ const Profile = () => {
             <div className="profile-post-grid">
                 {displayedPosts?.length > 0 ? (
                     displayedPosts.map((post, index) => (
-                        <div className="profile-post-item" key={index}>
+
+                      <Link to='/post' key={index}>
+                        <div className="profile-post-item" 
+                            
+                            onClick={() => {
+                                {/*Only finding those posts which id's match with profile post id's*/}
+                                const fullPost = posts.find(p => p._id === post._id);
+
+                                {/*Selecting post on click */}
+                                dispatch(setSelectedPost(fullPost || post));
+                            }}
+                                key={index}
+                        >
+                                
                             <img
                                 src={post.image}
                                 alt="post"
                                 className="profile-post-image"
                             />
+                                
+                            
                             <div className="post-hover-info">
                                 <span className="post-likes">
-                                <i class="ri-heart-3-fill"></i> {post.likes.length}
+                                <i className="ri-heart-3-fill"></i> {post.likes.length}
                                 </span>
                                 <span className="post-comments">
-                                <i class="ri-chat-3-line"></i> {post.comments.length}
+                                <i className="ri-chat-3-line"></i> {post.comments.length}
                                 </span>
                             </div>
                         </div>
+                      </Link>
+                       
+                      
                     ))
                 ) : (
                     <div className="empty-posts-message">
