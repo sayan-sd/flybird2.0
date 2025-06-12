@@ -1,0 +1,62 @@
+.profile-preview-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:10px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  max-width: 450px;
+}
+
+.profile-preview-image-box{
+  width: 80px;
+}
+
+.profile-preview-image{
+  width: 100%;
+  border-radius: 50%;
+}
+
+.profile-preview-name{
+  font-weight: 600;
+  font-size: 26px;
+
+}
+
+.profile-preview-stats{
+  display: flex;
+  flex-direction: row;
+  gap:20px;
+}
+
+
+.preview-stats{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.stats-value{
+  font-size: 16px;
+}
+
+
+.stats-label{
+  font-size: 16px;
+
+}
+
+.profile-preview-btn{
+  background-color: #601e78;
+  color: #ffffff;
+  cursor: pointer;
+
+}
+
+
+.profile-preview-btn:hover{
+  background-color: #540870;
+}
