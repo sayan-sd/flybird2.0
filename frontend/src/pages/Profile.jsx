@@ -8,6 +8,7 @@ import { setAuthUser, setUserProfile } from "../store/slices/authSlice";
 import '../stylesheets/Profile.css';
 import editIcon from '../assets/profile/pen-fill.svg';
 import { setSelectedPost } from "../store/slices/postSlice";
+import CreatePost from "../components/CreatePost";
 
 
 const Profile = () => {
@@ -15,6 +16,7 @@ const Profile = () => {
     const userId = params.id;
     useGetUserProfile(userId);
     const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
 
     // Getting all Posts from store
     const { posts } = useSelector((store) => store.post);
@@ -75,6 +77,7 @@ const Profile = () => {
     };
 
     return (
+        <>
         <div className="profile-page">
             {/* Top Section */}
             <div className='profile-top-section'>
@@ -118,14 +121,22 @@ const Profile = () => {
                             </div>
 
                             {isLoggedInUser ? (
-                                <div>
+                                <div className='profile-buttons'>
+                                    <button id='profile-create-post-btn'
+                                        onClick={() => setOpen(true)} 
+                                    >
+                                        Create Post
+                                    </button>
+
                                     <Link to={"/account/edit"}>
-                                        <button id='edit-profile-btn'>
+                                        <button id='profile-edit-profile-btn'>
                                             <img src={editIcon} alt='Edit'/>
                                             Edit Profile
                                         </button>
                                     </Link>
                                 </div>
+                                
+
                             ) : isFollowingUser ? (  
                                 <div className="following-section">
                                     <button
@@ -221,6 +232,8 @@ const Profile = () => {
                 )}
             </div>
         </div>
+        {open && <CreatePost open={open} setOpen={setOpen} />}
+        </>
     );
 };
 
