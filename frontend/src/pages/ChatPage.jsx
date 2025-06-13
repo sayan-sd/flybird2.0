@@ -2,20 +2,28 @@ import "../stylesheets/ChatPage.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/slices/authSlice";
+import { setMessages } from "../store/slices/chatSlice";
 import Messages from "../components/Messages";
 import toast from "react-hot-toast";
-import { setMessages } from "../store/slices/chatSlice";
 import axios from "axios";
-import '../stylesheets/ChatPage.css';
+import EmojiPicker from "emoji-picker-react";
+import {
+    Smile,
+    Sun,
+    Moon,
+    SendHorizontal,
+} from "lucide-react";
 
 const ChatPage = () => {
     const dispatch = useDispatch();
-
     const { user, suggestedUsers, selectedUser } = useSelector((store) => store.auth);
     const { onlineUsers, messages } = useSelector((store) => store.chat);
 
     const [textMessage, setTextMessage] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [isTyping, setIsTyping] = useState(false);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [theme, setTheme] = useState("light");
 
     const sendMessageHandler = async (receiverId) => {
         try {
@@ -23,9 +31,6 @@ const ChatPage = () => {
                 import.meta.env.VITE_SERVER_DOMAIN + `/message/send/${receiverId}`,
                 { message: textMessage },
                 {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
                     withCredentials: true,
                 }
             );
@@ -33,6 +38,7 @@ const ChatPage = () => {
             if (res.data.status) {
                 dispatch(setMessages([...messages, res.data.newMessage]));
                 setTextMessage("");
+                setShowEmojiPicker(false);
             }
         } catch (error) {
             console.error("Error in sending message", error);
@@ -51,9 +57,13 @@ const ChatPage = () => {
         u.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const toggleTheme = () => {
+        setTheme(theme === "light" ? "dark" : "light");
+        document.body.classList.toggle("dark-theme");
+    };
+
     return (
-        <div className="chat-page-container">
-            {/* CONTACT SECTION */}
+        <div className={`chat-page-container ${theme}`}>
             <section className="contact-section">
                 <div className="current-user">
                     <img src={user?.profilePicture} className="avatar" alt="me" />
@@ -68,6 +78,12 @@ const ChatPage = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
 
+                <div className="theme-toggle">
+                    <button onClick={toggleTheme}>
+                        {theme === "light" ? <Moon size={20} color="#540D6E" /> : <Sun size={20} color="#540D6E" />}
+                    </button>
+                </div>
+
                 <div className="suggested-users">
                     {filteredUsers.map((suggestedUser) => {
                         const isOnline = onlineUsers.includes(suggestedUser._id);
@@ -77,11 +93,7 @@ const ChatPage = () => {
                                 className="user-entry"
                                 onClick={() => dispatch(setSelectedUser(suggestedUser))}
                             >
-                                <img
-                                    src={suggestedUser.profilePicture}
-                                    alt="user"
-                                    className="avatar"
-                                />
+                                <img src={suggestedUser.profilePicture} alt="user" className="avatar" />
                                 <div className="user-info">
                                     <span className="username">{suggestedUser.username}</span>
                                     <span className={`status ${isOnline ? "online" : "offline"}`}>
@@ -94,17 +106,11 @@ const ChatPage = () => {
                 </div>
             </section>
 
-            {/* CHAT SECTION */}
             {selectedUser ? (
                 <section className="chat-section">
-                    {/* ✅ Chat Header */}
                     <div className="chat-header">
                         <div className="chat-header-user">
-                            <img
-                                src={selectedUser.profilePicture}
-                                className="chat-header-avatar"
-                                alt="selected_user"
-                            />
+                            <img src={selectedUser.profilePicture} className="chat-header-avatar" alt="selected_user" />
                             <div>
                                 <h2 className="chat-header-name">{selectedUser.username}</h2>
                                 <p className={`chat-header-status ${onlineUsers.includes(selectedUser._id) ? 'online' : 'offline'}`}>
@@ -114,23 +120,39 @@ const ChatPage = () => {
                         </div>
                     </div>
 
-                    {/* ✅ Messages Component */}
+                    {isTyping && (
+                        <div className="typing-indicator">
+                            {selectedUser.username} is typing...
+                        </div>
+                    )}
+
                     <Messages selectedUser={selectedUser} />
 
-                    {/* ✅ Input Section */}
                     <div className="message-input-container">
+                        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className="emoji-btn">
+                            <Smile size={20} color="#540D6E" />
+                        </button>
+
+                        {showEmojiPicker && (
+                            <div className="emoji-picker">
+                                <EmojiPicker onEmojiClick={(emoji) => setTextMessage(textMessage + emoji.emoji)} />
+                            </div>
+                        )}
+
                         <input
                             type="text"
                             placeholder="Type a message..."
                             className="message-input"
                             value={textMessage}
-                            onChange={(e) => setTextMessage(e.target.value)}
+                            onChange={(e) => {
+                                setTextMessage(e.target.value);
+                                setIsTyping(true);
+                                setTimeout(() => setIsTyping(false), 2000);
+                            }}
                         />
-                        <button
-                            onClick={() => sendMessageHandler(selectedUser?._id)}
-                            className="send-button"
-                        >
-                            Send
+
+                        <button onClick={() => sendMessageHandler(selectedUser?._id)} className="send-button">
+                            <SendHorizontal size={20} color="#540D6E" />
                         </button>
                     </div>
                 </section>
