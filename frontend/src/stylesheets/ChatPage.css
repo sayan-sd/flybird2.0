@@ -31,7 +31,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
-  color: #fff;
+  color: white;
 }
 
 .search-input {
@@ -127,7 +127,7 @@
   justify-content: space-between;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #eee;
-  background-color: #3d0a50
+  background-color: #540D6E;
 }
 
 .chat-header-user {
@@ -216,7 +216,7 @@
   margin-left: 1rem;
   padding: 0.8rem 1.4rem;
   background-color: white;
-  color: white;
+  color: #540D6E;
   border: 1px solid #540D6E;
   border-radius: 35px;
   font-weight: 500;
@@ -248,37 +248,6 @@
   border-radius: 3px;
 }
 
-/* ===== DARK MODE STYLES ===== */
-.dark-theme {
-  background-color: #121212;
-  color: #f1f1f1;
-}
-
-.dark-theme .chat-page-container {
-  background-color: #121212;
-}
-
-.dark-theme .contact-section {
-  background-color: #1a1a1a;
-}
-
-.dark-theme .chat-header {
-  background-color: #1a1a1a;
-  border-bottom: 1px solid #333;
-}
-
-.dark-theme .message-input-container {
-  background-color: #1a1a1a;
-}
-
-.dark-theme .message-input {
-  background-color: #333;
-  color: #f1f1f1;
-}
-
-.dark-theme .send-button {
-  background-color: white;
-}
 
 /* ===== EMOJI PICKER ===== */
 .emoji-picker {

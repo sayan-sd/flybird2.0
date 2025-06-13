@@ -1,14 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import Feed from "../components/Feed";
 import { Outlet } from "react-router-dom";
 import RightSideBar from "../components/posts/RightSideBar";
 import useGetAllPosts from "../hooks/useGetAllPosts";
 import useGetSuggestedUsers from "../hooks/useGetSuggestedUsers";
-import ChatPreview from "../components/ChatPreview";
+import ProfilePreview from "../components/ProfilePreview";
+import MiniCreatePost from "../components/MiniCreatePost";
+
 
 const Home = () => {
     useGetAllPosts();
     useGetSuggestedUsers();
+
 
     return (
         <div className="flex">
@@ -16,8 +19,9 @@ const Home = () => {
                 <Feed />
                 <Outlet />
             </div>
-            <div className="rightSidebar" className="mt-10">
-                <ChatPreview />
+            <div className="rightSidebar mt-10">
+                <ProfilePreview />
+                <MiniCreatePost />
                 <RightSideBar />
             </div>
            
