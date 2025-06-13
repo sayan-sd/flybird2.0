@@ -1,5 +1,5 @@
 import "../stylesheets/ChatPage.css";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedUser } from "../store/slices/authSlice";
 import { setMessages } from "../store/slices/chatSlice";
@@ -8,14 +8,9 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import EmojiPicker from "emoji-picker-react";
 import {
-    PhoneCall,
-    Paperclip,
     Smile,
-    Mic,
     Sun,
     Moon,
-    Pin,
-    Clock3,
     SendHorizontal,
 } from "lucide-react";
 
@@ -28,22 +23,14 @@ const ChatPage = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [mediaFile, setMediaFile] = useState(null);
     const [theme, setTheme] = useState("light");
-
-    const fileInputRef = useRef(null);
 
     const sendMessageHandler = async (receiverId) => {
         try {
-            const formData = new FormData();
-            formData.append("message", textMessage);
-            if (mediaFile) formData.append("file", mediaFile);
-
             const res = await axios.post(
                 import.meta.env.VITE_SERVER_DOMAIN + `/message/send/${receiverId}`,
-                formData,
+                { message: textMessage },
                 {
-                    headers: { "Content-Type": "multipart/form-data" },
                     withCredentials: true,
                 }
             );
@@ -51,7 +38,6 @@ const ChatPage = () => {
             if (res.data.status) {
                 dispatch(setMessages([...messages, res.data.newMessage]));
                 setTextMessage("");
-                setMediaFile(null);
                 setShowEmojiPicker(false);
             }
         } catch (error) {
@@ -74,25 +60,6 @@ const ChatPage = () => {
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
         document.body.classList.toggle("dark-theme");
-    };
-
-    const handleVoiceNote = async () => {
-        toast("Voice note recording feature coming soon!");
-    };
-
-    const handleStartCall = () => {
-        toast("Video call feature coming soon!");
-    };
-
-    const handlePinMessage = () => {
-        toast("Pin message feature coming soon!");
-    };
-
-    const handleDisappearingMsg = () => {
-        toast("Disappearing message mode activated for 10 seconds!");
-        setTimeout(() => {
-            setMessages(messages.slice(0, -1));
-        }, 10000);
     };
 
     return (
@@ -151,12 +118,6 @@ const ChatPage = () => {
                                 </p>
                             </div>
                         </div>
-
-                        <div className="chat-tools">
-                            <button onClick={handleStartCall}><PhoneCall size={20} color="#540D6E" /></button>
-                            <button onClick={handlePinMessage}><Pin size={20} color="#540D6E" /></button>
-                            <button onClick={handleDisappearingMsg}><Clock3 size={20} color="#540D6E" /></button>
-                        </div>
                     </div>
 
                     {isTyping && (
@@ -190,16 +151,6 @@ const ChatPage = () => {
                             }}
                         />
 
-                        <input
-                            type="file"
-                            accept="image/*,application/pdf"
-                            ref={fileInputRef}
-                            style={{ display: "none" }}
-                            onChange={(e) => setMediaFile(e.target.files[0])}
-                        />
-
-                        <button onClick={() => fileInputRef.current.click()}><Paperclip size={20} color="#540D6E" /></button>
-                        <button onClick={handleVoiceNote}><Mic size={20} color="#540D6E" /></button>
                         <button onClick={() => sendMessageHandler(selectedUser?._id)} className="send-button">
                             <SendHorizontal size={20} color="#540D6E" />
                         </button>

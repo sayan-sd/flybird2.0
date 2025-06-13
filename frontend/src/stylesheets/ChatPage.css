@@ -34,6 +34,30 @@
   color: white;
 }
 
+.theme-toggle {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+}
+
+.theme-toggle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.theme-toggle button svg {
+  color: white;
+  fill: white;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.theme-toggle button:hover svg {
+  color: #d9d9d9;
+  fill: #d9d9d9;
+}
+
 .search-input {
   padding: 0.8rem 1.2rem;
   margin: 1rem;
@@ -93,9 +117,10 @@
   flex: 1;
 }
 
-.username {
+.contact-username {
   font-weight: 500;
   font-size: 0.95rem;
+  color: white;
 }
 
 .status {
@@ -134,7 +159,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color:white;
+  color: white;
 }
 
 .chat-header-avatar {
@@ -149,6 +174,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.2rem;
+  color: white;
 }
 
 .chat-header-status {
@@ -197,6 +223,23 @@
   z-index: 10;
 }
 
+.emoji-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.emoji-btn svg {
+  color: #540D6E;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.emoji-btn:hover svg {
+  color: #7f27a3;
+}
+
 .message-input {
   flex: 1;
   padding: 0.85rem 1.2rem;
@@ -214,18 +257,28 @@
 
 .send-button {
   margin-left: 1rem;
-  padding: 0.8rem 1.4rem;
+  padding: 0.8rem;
   background-color: white;
   color: #540D6E;
   border: 1px solid #540D6E;
-  border-radius: 35px;
-  font-weight: 500;
+  border-radius: 50%;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
 }
+
+.send-button svg {
+  color: #540D6E;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
 .send-button:hover {
-  background-color: #3d0a50;
+  background-color: #f8f9fa;
   transform: translateY(-1px);
+}
+
+.send-button:hover svg {
+  color: #7f27a3;
 }
 
 .send-button:active {
@@ -248,7 +301,6 @@
   border-radius: 3px;
 }
 
-
 /* ===== EMOJI PICKER ===== */
 .emoji-picker {
   position: absolute;
@@ -262,58 +314,6 @@
   padding: 0.5rem 1rem;
   color: #888;
   font-style: italic;
-}
-
-/* ===== CHAT TOOLS (VOICE, CALL, PIN, DISAPPEARING) ===== */
-.chat-tools button {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  margin-left: 10px;
-  color: #540D6E;
-}
-
-.chat-tools button:hover {
-  color: #7f27a3;
-}
-
-/* ===== VOICE/VIDEO BUTTONS ===== */
-.voice-call-button,
-.video-call-button {
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
-  margin-left: 10px;
-  color: #540D6E;
-}
-
-.voice-call-button:hover,
-.video-call-button:hover {
-  color: #7f27a3;
-}
-
-/* ===== FILE SHARING BUTTON ===== */
-.file-input-button {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  margin: 0 5px;
-}
-
-/* ===== DISAPPEARING MESSAGE BUTTON ===== */
-.disappearing-message-button {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  margin: 0 5px;
-}
-
-.disappearing-message-button:hover {
-  color: #7f27a3;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -330,15 +330,22 @@
   .chat-section {
     height: calc(100vh - 220px);
   }
-}
 
-@media (max-width: 480px) {
-  .current-user h1 {
+  .chat-header {
+    padding: 0.8rem 1rem;
+  }
+
+  .chat-header-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .chat-header-name {
     font-size: 1rem;
   }
 
-  .username {
-    font-size: 0.85rem;
+  .message-input-container {
+    padding: 0.8rem;
   }
 
   .message-input {
@@ -346,42 +353,66 @@
   }
 
   .send-button {
-    padding: 0.7rem 1.1rem;
+    padding: 0.7rem;
+    margin-left: 0.5rem;
   }
 }
 
-/* ===== GLOBAL ICON STYLING ===== */
-.chat-tools button,
-.voice-call-button,
-.video-call-button,
-.file-input-button,
-.disappearing-message-button,
-.send-button svg,
-.chat-header svg {
-  color: white !important;
-  fill: white !important;
-}
+@media (max-width: 480px) {
+  .contact-section {
+    height: 200px;
+  }
 
-/* Optional: Add hover effect using accent color */
-.chat-tools button:hover,
-.voice-call-button:hover,
-.video-call-button:hover,
-.file-input-button:hover,
-.disappearing-message-button:hover,
-.send-button:hover svg,
-.chat-header svg:hover {
-  color: #d9d9d9 !important;
-  fill: #d9d9d9 !important;
-  transition: color 0.2s ease, fill 0.2s ease;
-}
+  .current-user {
+    padding: 1rem;
+  }
 
-/* Optional: Make SVG icons slightly bigger and uniform */
-.chat-tools button svg,
-.voice-call-button svg,
-.video-call-button svg,
-.file-input-button svg,
-.disappearing-message-button svg {
-  width: 1.4rem;
-  height: 1.4rem;
-}
+  .current-user h1 {
+    font-size: 1rem;
+  }
 
+  .search-input {
+    margin: 0.8rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .user-entry {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .contact-username {
+    font-size: 0.85rem;
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .chat-header {
+    padding: 0.6rem 1rem;
+  }
+
+  .chat-messages {
+    padding: 0.8rem 1rem;
+  }
+
+  .message-input {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .send-button {
+    padding: 0.6rem;
+  }
+
+  .send-button svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .emoji-btn svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
