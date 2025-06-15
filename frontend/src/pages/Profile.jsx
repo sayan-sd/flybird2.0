@@ -91,72 +91,76 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-info">
-                        <div className="profile-user-info">
-                            <div className='info-box'>
-                                <p className='user-info-value'>
-                                    {userProfile?.posts?.length}
-                                </p>
-                                <p className='user-info-label'>
-            
-                                    Posts
-                                </p>
-                            </div>
+                        <div className="profile-info-top">
+                            <div className="profile-user-info">
+                                <div className='info-box'>
+                                    <p className='user-info-value'>
+                                        {userProfile?.posts?.length}
+                                    </p>
+                                    <p className='user-info-label'>
+                                        Posts
+                                    </p>
+                                </div>
 
-                            <div className='info-box'>
-                                <p className='user-info-value'>
-                                    {userProfile?.followers?.length}
-                                </p>
-                                <p className='user-info-label'>
-                                    Followers
-                                </p>
-                            </div>
+                                <div className='info-box'>
+                                    <p className='user-info-value'>
+                                        {userProfile?.followers?.length}
+                                    </p>
+                                    <p className='user-info-label'>
+                                        Followers
+                                    </p>
+                                </div>
 
-                            <div className='info-box'>
-                                <p className='user-info-value'>
-                                    {userProfile?.following?.length}
-                                </p>
-                                <p className='user-info-label'>
-                                    Following
-                                </p>
+                                <div className='info-box'>
+                                    <p className='user-info-value'>
+                                        {userProfile?.following?.length}
+                                    </p>
+                                    <p className='user-info-label'>
+                                        Following
+                                    </p>
+                                </div>
+
                             </div>
 
                             {isLoggedInUser ? (
-                                <div className='profile-buttons'>
-                                    <button id='profile-create-post-btn'
-                                        onClick={() => setOpen(true)} 
-                                    >
-                                        Create Post
-                                    </button>
-
-                                    <Link to={"/account/edit"}>
-                                        <button id='profile-edit-profile-btn'>
-                                            <img src={editIcon} alt='Edit'/>
-                                            Edit Profile
+                                    <div className='profile-buttons'>
+                                        <button className='profile-create-post-btn profile-btn'
+                                            onClick={() => setOpen(true)} 
+                                        >
+                                            Create Post
                                         </button>
-                                    </Link>
-                                </div>
-                                
 
-                            ) : isFollowingUser ? (  
-                                <div className="following-section">
-                                    <button
-                                        className="follow-btn unfollow-btn"
-                                        onClick={followHandler}
-                                    >
-                                        Unfollow
-                                    </button>
-                                    <button className="message-btn">
-                                        Message
-                                    </button>
-                                </div>
-                            ) : (
-                                <button
-                                    className="follow-btn"
-                                    onClick={followHandler}
-                                >
-                                    Follow
-                                </button>
-                            )}
+                                        <Link to={"/account/edit"}>
+                                            <button className='profile-edit-profile-btn profile-btn'>
+                                                <img src={editIcon} alt='Edit'/>
+                                                Edit Profile
+                                            </button>
+                                        </Link>
+                                    </div>
+                                    
+
+                                ) : isFollowingUser ? (  
+                                    <div className="profile-buttons">
+                                        <button
+                                            className="follow-btn unfollow-btn profile-btn"
+                                            onClick={followHandler}
+                                        >
+                                            Unfollow
+                                        </button>
+                                        <button className="message-btn profile-btn">
+                                            Message
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="profile-buttons">
+                                        <button
+                                            className="follow-btn profile-btn"
+                                            onClick={followHandler}
+                                        >
+                                            Follow
+                                        </button>
+                                    </div>
+                                )}
                         </div>
 
                         <div className='profile-head'>
