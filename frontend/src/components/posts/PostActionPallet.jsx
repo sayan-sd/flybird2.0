@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import store from "../../store/store";
 import { setPosts } from "../../store/slices/postSlice";
+import '../../stylesheets/PostActionPallet.css';
 
 const PostActionPallet = ({ open, setOpen, userId, postAuthorId, postId }) => {
     const { posts } = useSelector((store) => store.post);
@@ -56,11 +57,11 @@ const PostActionPallet = ({ open, setOpen, userId, postAuthorId, postId }) => {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
+            className="overlay"
             onClick={() => setOpen(false)} // close on overlay click
         >
             <div
-                className="relative w-full max-w-xl p-4 bg-white rounded-md shadow-lg"
+                className="modal-container"
                 onClick={handleDialogClick}
             >
                 {/* Close button  */}

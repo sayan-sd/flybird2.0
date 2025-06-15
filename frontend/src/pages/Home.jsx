@@ -6,6 +6,7 @@ import useGetAllPosts from "../hooks/useGetAllPosts";
 import useGetSuggestedUsers from "../hooks/useGetSuggestedUsers";
 import ProfilePreview from "../components/ProfilePreview";
 import MiniCreatePost from "../components/MiniCreatePost";
+import '../stylesheets/Home.css';
 
 
 const Home = () => {
