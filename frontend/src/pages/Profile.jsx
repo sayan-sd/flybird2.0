@@ -124,14 +124,14 @@ const Profile = () => {
 
                             {isLoggedInUser ? (
                                     <div className='profile-buttons'>
-                                        <button className='profile-create-post-btn'
+                                        <button className='profile-create-post-btn profile-btn'
                                             onClick={() => setOpen(true)} 
                                         >
                                             Create Post
                                         </button>
 
                                         <Link to={"/account/edit"}>
-                                            <button className='profile-edit-profile-btn'>
+                                            <button className='profile-edit-profile-btn profile-btn'>
                                                 <img src={editIcon} alt='Edit'/>
                                                 Edit Profile
                                             </button>
@@ -142,19 +142,19 @@ const Profile = () => {
                                 ) : isFollowingUser ? (  
                                     <div className="profile-buttons">
                                         <button
-                                            className="follow-btn unfollow-btn"
+                                            className="follow-btn unfollow-btn profile-btn"
                                             onClick={followHandler}
                                         >
                                             Unfollow
                                         </button>
-                                        <button className="message-btn">
+                                        <button className="message-btn profile-btn">
                                             Message
                                         </button>
                                     </div>
                                 ) : (
                                     <div className="profile-buttons">
                                         <button
-                                            className="follow-btn"
+                                            className="follow-btn profile-btn"
                                             onClick={followHandler}
                                         >
                                             Follow
