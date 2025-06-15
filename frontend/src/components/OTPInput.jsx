@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-
-const OtpInput = ({ name = "otp",  onOtpChange }) => {
+import  '../stylesheets/OTPInput.css';
+const OtpInput = ({ name = "otp", onOtpChange }) => {
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const inputRefs = useRef([]);
 
@@ -12,12 +12,12 @@ const OtpInput = ({ name = "otp",  onOtpChange }) => {
         newOtp[index] = value.substring(value.length - 1);
         setOtp(newOtp);
 
-        // move to next inp box
+        // move to next input box
         if (value && index < 5) {
             inputRefs.current[index + 1].focus();
         }
 
-        // ppdate hidden input with complete otp
+        // update hidden input with complete otp
         const hiddenInput = document.querySelector(`input[name="${name}"]`);
         if (hiddenInput) {
             hiddenInput.value = newOtp.join("");
@@ -65,8 +65,8 @@ const OtpInput = ({ name = "otp",  onOtpChange }) => {
     }, [otp, onOtpChange]);
 
     return (
-        <div className="flex flex-col items-center gap-4">
-            <div className="flex justify-center gap-2">
+        <div className="otp-section">
+            <div className="otp-input-container">
                 {otp.map((digit, index) => (
                     <input
                         key={index}
@@ -76,8 +76,11 @@ const OtpInput = ({ name = "otp",  onOtpChange }) => {
                         onChange={(e) => handleChange(index, e)}
                         onKeyDown={(e) => handleKeyDown(index, e)}
                         onPaste={handlePaste}
-                        className="w-12 h-12 text-2xl text-center border-2 rounded-lg focus:border-black focus:outline-none"
+                        className="otp-input"
                         maxLength={1}
+                        autoComplete="one-time-code"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                     />
                 ))}
             </div>

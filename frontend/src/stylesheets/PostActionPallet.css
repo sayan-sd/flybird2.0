@@ -1,0 +1,118 @@
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(75, 75, 75, 0.683);
+    backdrop-filter: blur(15px);
+}
+
+.modal-container{
+  animation: fadeInUp 0.3s ease-out;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  height: 200px;
+  overflow: hidden;
+}
+
+/* Close button */
+.absolute {
+  top: 12px;
+  right: 12px;
+  font-size: 30px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  background: rgba(59, 2, 79, 0.667);
+  color: white;
+  cursor: pointer;
+}
+
+.absolute:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: rotate(90deg);
+  color: black;
+}
+
+/* Action buttons */
+.flex-col button {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.flex-col button:active {
+  transform: scale(0.98);
+}
+
+/* Follow button */
+
+.bg-primary:hover {
+  background: linear-gradient(135deg, var(--hover), #4a169e);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(70, 18, 130, 0.4);
+}
+
+
+.text-black {
+  border: 1px solid #e5e7eb;
+  background: white;
+}
+
+.text-black:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+/* Delete button */
+.bg-red {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
+}
+
+.bg-red:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .relative {
+    width: 95%;
+    padding: 20px 12px;
+  }
+  
+  .flex-col button {
+    width: 100%;
+    padding: 12px;
+  }
+}
