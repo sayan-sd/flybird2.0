@@ -14,7 +14,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgb(255, 255, 255);
+    background: rgba(3, 0, 0, 0.237);
+    color: white;
     width: 50px;
     height: 50px;
     display: flex;
@@ -31,6 +32,7 @@
     color: #de2439;
 }
 
+
 .peek-post-image-section{
     width: 75%;
     display: flex;
@@ -38,6 +40,7 @@
     align-items: center;
     background-color: rgb(23, 23, 23);
     overflow: hidden;
+    border-right: 2px solid #161616;
 }
 
 .peek-post-image-section .peek-post-image {
@@ -194,23 +197,6 @@
     background-color: #3f0a55;
 }
 
-/* 
-@media (max-width: 768px) {
-    .peek-post-screen {
-        flex-direction: column;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-
-    .peek-post-image,
-    .peek-comment-section {
-        width: 100%;
-    }
-
-    .peek-comment-section .peek-comments-list {
-        max-height: 250px;
-    }
-} */
 
 @media(max-width: 1380px){
     .peek-post-image-section{
@@ -249,6 +235,7 @@
         width:100%;
         padding: 0px;
         background-color: #2d2c2c;
+        border-bottom: 2px solid #161616;
         
     }
     .peek-post-image-section .peek-post-image{
