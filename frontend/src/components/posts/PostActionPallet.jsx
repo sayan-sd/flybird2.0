@@ -56,47 +56,49 @@ const PostActionPallet = ({ open, setOpen, userId, postAuthorId, postId }) => {
     };
 
     return (
-        <div
-            className="overlay"
-            onClick={() => setOpen(false)} // close on overlay click
-        >
+        <div className='post-action-pallet-main'>
             <div
-                className="modal-container"
-                onClick={handleDialogClick}
+                className="overlay"
+                onClick={() => setOpen(false)} // close on overlay click
             >
-                {/* Close button  */}
-                <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                <div
+                    className="modal-container"
+                    onClick={handleDialogClick}
                 >
-                    &times;
-                </button>
-
-                <div className="w-full flex flex-col gap-3">
-                    {
-                        postAuthorId !== user?._id && (
-                            <button className="px-4 py-2 text-white bg-primary w-48 mx-auto">
-                                Follow
-                            </button>
-                        )
-                    }
-
-                    <button className="px-4 py-2 text-black w-48 mx-auto">
-                        Add to favorites
+                    {/* Close button  */}
+                    <button
+                        type="button"
+                        onClick={() => setOpen(false)}
+                        className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+                    >
+                        &times;
                     </button>
 
-                    {/* delete post */}
-                    {userId === postAuthorId ? (
-                        <button
-                            className="px-4 py-2 text-white bg-red w-48 mx-auto"
-                            onClick={deletePostHandler}
-                        >
-                            Delete
+                    <div className="w-full flex flex-col gap-3">
+                        {
+                            postAuthorId !== user?._id && (
+                                <button className="px-4 py-2 text-white bg-primary w-48 mx-auto">
+                                    Follow
+                                </button>
+                            )
+                        }
+
+                        <button className="px-4 py-2 text-black w-48 mx-auto">
+                            Add to favorites
                         </button>
-                    ) : (
-                        ""
-                    )}
+
+                        {/* delete post */}
+                        {userId === postAuthorId ? (
+                            <button
+                                className="px-4 py-2 text-white bg-red w-48 mx-auto"
+                                onClick={deletePostHandler}
+                            >
+                                Delete
+                            </button>
+                        ) : (
+                            ""
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import GoogleLogo from "../../assets/auth/google.svg";
+// import GoogleLogo from "../../assets/auth/google.svg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -94,11 +94,6 @@ const Login = () => {
                 </button>
 
                 <div className="divider">OR</div>
-
-                <button type="button" className="google-btn">
-                    <img src={GoogleLogo} alt="google" />
-                    Login with Google
-                </button>
 
                 <div className="auth-redirect">
                     Don't have an account? <Link to="/auth/signup">Sign up</Link>

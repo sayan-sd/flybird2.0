@@ -15,17 +15,18 @@ const Home = () => {
 
 
     return (
-        <div className="flex">
-            <div className="flex-grow">
-                <Feed />
-                <Outlet />
+        <div className='homepage-main'>
+            <div className="flex">
+                <div className="flex-grow">
+                    <Feed />
+                    <Outlet />
+                </div>
+                <div className="rightSidebar mt-10">
+                    <ProfilePreview />
+                    <MiniCreatePost />
+                    <RightSideBar />
+                </div>
             </div>
-            <div className="rightSidebar mt-10">
-                <ProfilePreview />
-                <MiniCreatePost />
-                <RightSideBar />
-            </div>
-           
         </div>
     );
 };
