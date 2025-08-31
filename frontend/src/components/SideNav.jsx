@@ -7,10 +7,8 @@ import CreatePost from "./CreatePost";
 import {
     ChatCircleDots,
     House,
-    Bell,
     Plus,
     SignOut,
-    MagnifyingGlass,
     UserCircle
 } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +23,6 @@ const TopNav = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector((store) => store.auth);
-    const { likeNotification } = useSelector(store => store.realTimeNotification);
     const [createPostOpen, setCreatePostOpen] = useState(false);
 
     const logoutHandler = async () => {
@@ -64,12 +61,6 @@ const TopNav = () => {
             case "Messages":
                 navigate("/chats");
                 break;
-            case "Notifications":
-                navigate("/notify");
-                break;
-            case "Search":
-                navigate("/search");
-                break;
             default:
                 break;
         }
@@ -84,13 +75,6 @@ const TopNav = () => {
 
                 <div className="nav-icons">
                     <div onClick={() => handleNav("Home")} className="icon-box"><House size={26} /></div>
-                    <div onClick={() => handleNav("Search")} className="icon-box"><MagnifyingGlass size={26} /></div>
-                    <div onClick={() => handleNav("Notifications")} className="icon-box relative">
-                        <Bell size={26} />
-                        {likeNotification?.length > 0 && (
-                            <span className="notif-count">{likeNotification.length}</span>
-                        )}
-                    </div>
                     <div onClick={() => handleNav("Messages")} className="icon-box"><ChatCircleDots size={26} /></div>
                     <div onClick={() => handleNav("Create")} className="icon-box"><Plus size={26} /></div>
                 </div>

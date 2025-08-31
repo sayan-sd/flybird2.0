@@ -1,26 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import Feed from "../components/Feed";
 import { Outlet } from "react-router-dom";
 import RightSideBar from "../components/posts/RightSideBar";
 import useGetAllPosts from "../hooks/useGetAllPosts";
 import useGetSuggestedUsers from "../hooks/useGetSuggestedUsers";
-import ChatPreview from "../components/ChatPreview";
+import ProfilePreview from "../components/ProfilePreview";
+import MiniCreatePost from "../components/MiniCreatePost";
+import '../stylesheets/Home.css';
+
 
 const Home = () => {
     useGetAllPosts();
     useGetSuggestedUsers();
 
+
     return (
-        <div className="flex">
-            <div className="flex-grow">
-                <Feed />
-                <Outlet />
+        <div className='homepage-main'>
+            <div className="flex">
+                <div className="flex-grow">
+                    <Feed />
+                    <Outlet />
+                </div>
+                <div className="rightSidebar mt-10">
+                    <ProfilePreview />
+                    <MiniCreatePost />
+                    <RightSideBar />
+                </div>
             </div>
-            <div className="rightSidebar" className="mt-10">
-                <ChatPreview />
-                <RightSideBar />
-            </div>
-           
         </div>
     );
 };

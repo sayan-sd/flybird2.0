@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 import ChatPage from "./pages/ChatPage";
 import Notification from "./pages/Notification";
+import PeekPost from "./components/posts/PeekPost";
 import { io } from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 // import { setSocket } from "./store/slices/socketSlice";
@@ -67,6 +68,7 @@ const browserRouter = createBrowserRouter([
                     </ProtectedRoutes>
                 ),
             },
+            
         ],
     },
     {
@@ -77,6 +79,15 @@ const browserRouter = createBrowserRouter([
         path: "/auth/login",
         element: <Login />,
     },
+    {
+        path: "/post",
+        element: (
+            <ProtectedRoutes>
+                 <PeekPost />
+            </ProtectedRoutes>
+        ),
+    }
+    
 ]);
 
 function App() {

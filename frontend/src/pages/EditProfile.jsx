@@ -67,14 +67,20 @@ const EditProfile = () => {
         }
     };
 
-    return (
-        <div className="flex justify-center items-center py-10 px-4 bg-gray-100 min-h-screen">
-            <div className="edit-container flex max-w-2xl mx-auto pl-10 flex-col gap-5">
+    const handleBack = () => {
+        navigate(-1); // Go back to the previous page
+    };
 
-                <h1 className="font-semibold text-2xl text-center text-primary">Edit Profile</h1>
+    return (
+        <div className="editprofile-flex justify-center items-center py-10 px-4 bg-gray-100 min-h-screen">
+            <div className="edit-container editprofile-flex editprofile-flex-col editprofile-gap-5 editprofile-max-w-2xl editprofile-mx-auto editprofile-pl-10">
+                <button className="editprofile-close-btn" onClick={handleBack}>
+                    ×
+                </button>
+                <h1 className="editprofile-font-semibold editprofile-text-2xl text-center">Edit Profile</h1>
 
                 {/* update photo */}
-                <div className="w-full flex flex-col md:flex-row items-center gap-5">
+                <div className="editprofile-w-full editprofile-flex flex-col md:editprofile-flex-row editprofile-items-center editprofile-gap-5">
                     <img
                         src={
                             input.profilePicture instanceof File
@@ -82,20 +88,20 @@ const EditProfile = () => {
                                 : user?.profilePicture
                         }
                         alt="user"
-                        className="w-20 h-20 rounded-full border-2 border-primary object-cover"
+                        className="editprofile-w-20 editprofile-h-20 editprofile-rounded-full editprofile-border-2 editprofile-border-primary editprofile-object-cover"
                     />
-                    <div className="flex flex-col gap-2">
-                        <p className="font-medium text-lg">@{user?.username}</p>
+                    <div className="editprofile-flex editprofile-flex-col editprofile-gap-5">
+                        <p className="editprofile-font-medium editprofile-text-lg">@{user?.username}</p>
                         <input
                             type="file"
                             ref={imageRef}
                             accept="image/*"
                             onChange={fileChangeHandler}
-                            className="hidden"
+                            className="editprofile-hidden"
                         />
                         <button
                             onClick={() => imageRef.current.click()}
-                            className="bg-primary text-white rounded-md px-4 py-2 cursor-pointer"
+                            className="editprofile-bg-primary text-white rounded-md px-4 py-2 editprofile-cursor-pointer editprofile-button"
                         >
                             Update Photo
                         </button>
@@ -103,38 +109,37 @@ const EditProfile = () => {
                 </div>
 
                 {/* bio */}
-                <div className="flex flex-col gap-1">
-                    <label className="font-semibold text-base">Bio</label>
+                <div className="editprofile-flex editprofile-flex-col editprofile-gap-5">
+                    <label className="editprofile-font-semibold">Bio</label>
                     <textarea
                         name="bio"
                         value={input.bio}
                         onChange={(e) => setInput({ ...input, bio: e.target.value })}
                         rows={4}
-                        className="w-full resize-none rounded-md p-2 focus:outline-primary border border-gray-500"
+                        className="editprofile-textarea"
                         placeholder="Write something about you..."
                     ></textarea>
                 </div>
 
                 {/* gender */}
                 <div className="gender-section">
-                    <h2 className="font-semibold text-lg">Gender</h2>
-                <select
-                    name="gender"
-                    className="gender-dropdown"
-                    defaultValue=""
-                    onChange={(e) => setInput({ ...input, gender: e.target.value })}
-  >
-                <option value="" disabled>Select gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="non-binary">Non-binary</option>
-                <option value="prefer-not-to-say">Prefer not to say</option>
-                </select>
+                    <h2 className="editprofile-font-semibold editprofile-text-lg">Gender</h2>
+                    <select
+                        name="gender"
+                        className="gender-dropdown"
+                        defaultValue=""
+                        onChange={(e) => setInput({ ...input, gender: e.target.value })}
+                    >
+                        <option value="" disabled>Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="non-binary">Non-binary</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
                 </div>
 
-
                 <button
-                    className="bg-primary text-white rounded-md p-2 hover:bg-opacity-90 transition"
+                    className="editprofile-submit-btn"
                     disabled={loading}
                     onClick={editProfileHandler}
                 >
